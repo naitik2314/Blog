@@ -1,0 +1,963 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter Animation (Task 6)</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="073390d1-7a89-407d-8c20-b23ffa53f842" class="page serif"><header><img class="page-cover-image" src="Flutter%20Animation%20(Task%206)%20073390d17a89407d8c20b23ffa53f842/2.png" style="object-position:center 100%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📱</span></div><h1 class="page-title">Flutter Animation (Task 6)</h1></header><div class="page-body"><p id="4d8832db-ea09-4d94-a7c1-4993daa16e79" class="">Hello readers,</p><p id="0e927738-44bd-482d-bf20-fe471930be59" class="">I have designed an animation app, completely using flutter. So, we are used to night mode in our lives, it uses lesser battery, it looks cool, and 90% of the people use night mode. But as an app developer, you can&#x27;t just rely on dark mode, leaving out the 10%. Then I had a brain wave, why don&#x27;t I implement a sort of toggle switch to switch between night mode and light mode. I designed a login page using the same idea, and took inspiration from scenery(because I love nature).</p><p id="890d2ef1-6426-4a04-bc33-db169241bf85" class="">Here is how it looks, beautiful isn&#x27;t it?</p><figure id="548973e1-6f7d-4787-8305-64c3b2f8e482" class="image"><a href="Flutter%20Animation%20(Task%206)%20073390d17a89407d8c20b23ffa53f842/24e33500-8cd3-48f5-896e-89dcbd8921aa.gif"><img style="width:640px" src="Flutter%20Animation%20(Task%206)%20073390d17a89407d8c20b23ffa53f842/24e33500-8cd3-48f5-896e-89dcbd8921aa.gif"/></a></figure><p id="51d6d25e-18d9-404a-92ad-bb5372c73466" class="">I hope you like this, excited to implement this? Well let&#x27;s do it.</p><div id="876d569a-dba7-42d2-aefb-a859ce034871" class="column-list"><div id="94bdf8e2-fd03-4a2f-a068-51305962dd9d" style="width:50%" class="column"><p id="1129d056-33ff-48c0-ab48-8393be29b322" class="">First things first, if you are an aspiring app developer, you might have notices that different phones have different resolutions, so we will calculate the resolution and have the size of the widgets and the assets according to the resolution. As an aspiring app developer, the biggest advice I follow is name the files according to the task they will be doing, for example, the file that will calculate the size of the assets is named: size_config.dart, alright enough of the lecture, let&#x27;s look at the code.</p><p id="9b096747-b380-4341-b596-6d56a46ca2d9" class="">Sorry, Sorry, Sorry, to interrupt you, first, let&#x27;s look at the code structure:</p></div><div id="144dbe47-f97c-4943-83e6-9bfac61f3200" style="width:50%" class="column"><figure id="4f47c3a0-f8fb-4a91-ae21-10bffba2d2d5" class="image"><a href="Flutter%20Animation%20(Task%206)%20073390d17a89407d8c20b23ffa53f842/1.png"><img style="width:432px" src="Flutter%20Animation%20(Task%206)%20073390d17a89407d8c20b23ffa53f842/1.png"/></a></figure></div></div><p id="624995a9-bbc0-43f5-86c4-e5f8fae70dc0" class="">Alright, let&#x27;s look at codes:</p><h3 id="b23a5029-ce00-4b65-a189-f8754488efc0" class="">size_config.dart</h3><pre id="40d9a4e9-936a-4770-a902-a1a2e51c95b8" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double defaultSize;
+  static Orientation orientation;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    orientation = _mediaQueryData.orientation;
+  }
+}
+
+// Get the proportionate height as per screen size
+double getProportionateScreenHeight(double inputHeight) {
+  double screenHeight = SizeConfig.screenHeight;
+  // Our designer use iPhone 11 , that&#x27;s why we use 896.0
+  return (inputHeight / 896.0) * screenHeight;
+}
+
+// Get the proportionate height as per screen size
+double getProportionateScreenWidth(double inputWidth) {
+  double screenWidth = SizeConfig.screenWidth;
+  // 414 is the layout width that designer use or you can say iPhone 11  width
+  return (inputWidth / 414.0) * screenWidth;
+}
+
+// For add free space vertically
+class VerticalSpacing extends StatelessWidget {
+  const VerticalSpacing({
+    Key key,
+    this.of = 25,
+  }) : super(key: key);
+
+  final double of;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: getProportionateScreenHeight(of),
+    );
+  }
+}</code></pre><p id="c8dade34-264b-403a-9be3-278bb5c670e2" class="">I hope the code is clear, and if it isn&#x27;t, you can always DM me on Instagram(Link will be given below) or send a message to me on LinkedIn(I will add the social media handles down).</p><h3 id="8c19d8d9-8b9f-4a65-8362-29112553a610" class=""><strong>main.dart code:</strong></h3><pre id="bd74eedc-e867-4e15-a9ff-634a5780f3dd" class="code"><code>import &#x27;package:animation/screens/login/login_screen.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: &#x27;Flutter Demo&#x27;,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: LoginScreen(),
+    );
+  }
+}</code></pre><p id="2aabb375-1ced-4a59-a624-eee95b476891" class="">As you would have noticed, there is a line of code: debugShowCheckedBanner: false, this hides the debug banner give on the top right corner of the device.</p><p id="f57862ce-01ec-404d-a9f4-187eaacc2c35" class="">Let&#x27;s have a look at the components.</p><h3 id="13708a51-cf17-4d45-877a-7ed9abdfc549" class="">body.dart</h3><pre id="6c2a23a3-1666-48aa-8505-0bf0dc4f7c69" class="code"><code>import &#x27;dart:async&#x27;;
+
+import &#x27;package:animation/size_config.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;land.dart&#x27;;
+import &#x27;rounded_text_field.dart&#x27;;
+import &#x27;sun.dart&#x27;;
+import &#x27;tabs.dart&#x27;;
+
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() =&gt; _BodyState();
+}
+
+class _BodyState extends State&lt;Body&gt; {
+  bool isFullSun = false;
+  bool isDayMood = true;
+  Duration _duration = Duration(seconds: 1);
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() {
+        isFullSun = true;
+      });
+    });
+  }
+
+  void changeMood(int activeTabNum) {
+    if (activeTabNum == 0) {
+      setState(() {
+        isDayMood = true;
+      });
+      Future.delayed(Duration(milliseconds: 300), () {
+        setState(() {
+          isFullSun = true;
+        });
+      });
+    } else {
+      setState(() {
+        isFullSun = false;
+      });
+      Future.delayed(Duration(milliseconds: 300), () {
+        setState(() {
+          isDayMood = false;
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List&lt;Color&gt; lightBgColors = [
+      Color(0xFF8C2480),
+      Color(0xFFCE587D),
+      Color(0xFFFF9485),
+      if (isFullSun) Color(0xFFFF9D80),
+    ];
+    var darkBgColors = [
+      Color(0xFF0D1441),
+      Color(0xFF283584),
+      Color(0xFF376AB2),
+    ];
+    return AnimatedContainer(
+      duration: _duration,
+      curve: Curves.easeInOut,
+      width: double.infinity,
+      height: SizeConfig.screenHeight,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: isDayMood ? lightBgColors : darkBgColors,
+        ),
+      ),
+      child: Stack(
+        children: [
+          Sun(duration: _duration, isFullSun: isFullSun),
+          Land(),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  VerticalSpacing(of: 50),
+                  Tabs(
+                    press: (value) {
+                      changeMood(value);
+                    },
+                  ),
+                  VerticalSpacing(),
+                  Text(
+                    &quot;Good Morning&quot;,
+                    style: Theme.of(context).textTheme.headline3.copyWith(
+                        fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  VerticalSpacing(of: 10),
+                  Text(
+                    &quot;Enter your Information below&quot;,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  VerticalSpacing(of: 50),
+                  RoundedTextField(
+                    initialValue: &quot;shahnaitik2000@gmail.com&quot;,
+                    hintText: &quot;Email&quot;,
+                  ),
+                  VerticalSpacing(),
+                  RoundedTextField(
+                    initialValue: &quot;XXXXXXX&quot;,
+                    hintText: &quot;Password&quot;,
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}</code></pre><h3 id="d7c87c63-46c8-45a3-8a84-32a2e686d006" class="">land.dart</h3><pre id="dddff5f2-ab12-4888-a8ba-b3f86bea5352" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;../../../size_config.dart&#x27;;
+
+class Land extends StatelessWidget {
+  const Land({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: getProportionateScreenWidth(-65),
+      left: 0,
+      right: 0,
+      child: Image.asset(
+        &quot;assets/images/land_tree_light.png&quot;,
+        height: getProportionateScreenWidth(430),
+        fit: BoxFit.fitHeight,
+      ),
+    );
+  }
+}</code></pre><h3 id="d325e21f-f31f-43f7-a35f-cc7816eef8f8" class="">rounded_text_field.dart</h3><p id="e0a7ff23-53d3-4f01-8b59-ea7d299ac3ad" class="">Again a tip for the aspiring developer reading this, from an aspiring developer, if you are going to use something more than once, try to make a widget, so your code looks clean, more professional, for example, the input fields will be used twice in this app, so I made a widget for it, and the second advantage being, you can directly copy this code to your another app, thus code reusing, thus saving time, thus learning more things.</p><pre id="f901af67-7005-4a3b-8e26-fba072281833" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;../../../size_config.dart&#x27;;
+
+class RoundedTextField extends StatelessWidget {
+  const RoundedTextField({
+    Key key,
+    this.initialValue,
+    this.hintText,
+  }) : super(key: key);
+
+  final String initialValue, hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          hintText,
+          style: TextStyle(color: Colors.white60),
+        ),
+        VerticalSpacing(of: 10),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.black12,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              width: 2,
+              color: Colors.black.withOpacity(0.1),
+            ),
+          ),
+          child: TextField(
+            style: TextStyle(color: Colors.white),
+            controller: TextEditingController(text: initialValue),
+            decoration: InputDecoration(
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}</code></pre><h3 id="6932c3fb-f134-49fd-aedc-e74ab2c68192" class="">sun.dart</h3><pre id="347fa758-fc1d-476b-96a3-e19172bd078c" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:flutter_svg/flutter_svg.dart&#x27;;
+
+import &#x27;../../../size_config.dart&#x27;;
+
+class Sun extends StatelessWidget {
+  const Sun({
+    Key key,
+    @required Duration duration,
+    @required this.isFullSun,
+  })  : _duration = duration,
+        super(key: key);
+
+  final Duration _duration;
+  final bool isFullSun;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedPositioned(
+      duration: _duration,
+      curve: Curves.easeInOut,
+      left: getProportionateScreenWidth(30),
+      bottom: getProportionateScreenWidth(isFullSun ? -45 : -120),
+      child: SvgPicture.asset(&quot;assets/icons/Sun.svg&quot;),
+    );
+  }
+}</code></pre><h3 id="f7f57a8d-0bfe-42e5-906e-e506b2991195" class="">tabs.dart</h3><pre id="8e19ee38-7c5b-4369-bf63-efb3abebf74e" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;../../../size_config.dart&#x27;;
+
+class Tabs extends StatelessWidget {
+  const Tabs({
+    Key key,
+    @required this.press,
+  }) : super(key: key);
+
+  final ValueChanged&lt;int&gt; press;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: SizeConfig.screenWidth * 0.8, // 80%
+      decoration: BoxDecoration(
+        color: Colors.white24,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DefaultTabController(
+        length: 2,
+        child: TabBar(
+          indicator: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          indicatorColor: Colors.white,
+          labelStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.white,
+          onTap: press,
+          tabs: [Tab(text: &quot;Morning&quot;), Tab(text: &quot;Night&quot;)],
+        ),
+      ),
+    );
+  }
+}</code></pre><hr id="15dec5e9-c456-4cbb-ada5-8da147b1f713"/><h3 id="6c4657bd-dc08-4f06-9586-e09cfc4faaef" class="">login_screen.dart</h3><pre id="25e5299d-570a-46f7-813a-d57ce7a00af3" class="code"><code>import &#x27;package:animation/size_config.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;components/body.dart&#x27;;
+
+class LoginScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return Scaffold(
+      body: Body(),
+    );
+  }
+}</code></pre><p id="d7decb36-a38f-4ab1-a3c5-126a8c5f6cf0" class="">
+</p><p id="fa0562b1-1f42-457c-bf78-dec93db787b1" class="">Repository Link:</p><figure id="8fe6d078-3a47-4946-997e-71c18451bfb4"><a href="https://github.com/naitik2314/Flutter-Animation" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">naitik2314/Flutter-Animation</div><div class="bookmark-description">Contribute to naitik2314/Flutter-Animation development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/naitik2314/Flutter-Animation</div></div><img src="https://opengraph.githubassets.com/3cbe322b5622c6cbe0a364359ba4cecae87bab7992409de702794b792ae0e7b6/naitik2314/Flutter-Animation" class="bookmark-image"/></a></figure><p id="3ad91f26-aabb-40b1-9c6c-6c2a3d0f32c5" class="">
+</p><p id="328abe0f-ea9c-4c49-8ffb-f6b908146c99" class="">Social Media Links:</p><div id="c4f15b1d-a49d-42a1-a651-e95a7638a0ff" class="column-list"><div id="11636422-e630-447e-b962-b2a31139eb90" style="width:33.333333333333336%" class="column"><p id="597a04ac-187f-406b-bc74-8e2a9e5c25c4" class="">🤝<a href="https://www.linkedin.com/in/naitik-shah-49baba1a1/">LinkedIn</a></p></div><div id="6105ccfe-0bd2-4e0a-bdcd-1bdb4b3800e3" style="width:33.333333333333336%" class="column"><p id="39bc65b6-8d76-411b-8a57-0cca6580ba5a" class="">🐱<a href="https://github.com/naitik2314">GitHub</a></p><p id="ac647f82-9ee6-408e-95cd-1d550b5c3fed" class="">
+</p></div><div id="ce1f76c6-cdbe-4480-a7b8-ff69c5502a06" style="width:33.33333333333333%" class="column"><p id="1d533d2b-8182-4a0e-baf6-a4374b45062a" class="">📱<a href="https://www.instagram.com/naitik2212/">Instagram</a></p><p id="52091c98-e0f1-417f-a62a-3e577be7626e" class="">
+</p></div></div></div></article></body></html>

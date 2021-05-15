@@ -1,0 +1,1243 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter ChatApp (Task 5)</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2b5a0fcd-e9ae-452d-953f-b57c49067654" class="page serif"><header><img class="page-cover-image" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/9.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🦜</span></div><h1 class="page-title">Flutter ChatApp (Task 5)</h1></header><div class="page-body"><p id="f625b4c8-fd86-4033-8ccd-c02d56c1c0d6" class="">Hello Viewers, </p><p id="ff1a1094-82b1-46cc-9e39-3684f7aa9e89" class="">As you might have guessed from the name of this blog, I made a chatApp today, using Firebase, and Flutter.</p><p id="506bbd56-8cbb-4995-b557-8eacbc5daab5" class="">The given problem statement:</p><ol id="5b7ee6d0-5ba5-4b47-a6d9-ca564688de44" class="numbered-list" start="1"><li>Create a chat app representing beautiful ui</li></ol><ol id="1fca852e-6012-486c-beaf-5f4a369723b7" class="numbered-list" start="2"><li>store/retrieve user data into firebase</li></ol><ol id="c1b746fd-c21f-4916-809a-1d4b0012b967" class="numbered-list" start="3"><li>Integrate the app with map API</li></ol><ol id="9ead7b24-687e-4739-a876-3ab412ce7cfd" class="numbered-list" start="4"><li>prompt current location of the user on click of the user profile.</li></ol><p id="f767b8aa-50b6-4d59-ae44-8ea1be6aa47a" class="">And here is the App I built.</p><figure id="c6485610-47cd-4cd1-9bd1-b8ecf7efba97"><a href="https://youtu.be/XmYdgzglaFk" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Chat App(Task 5 Showcase)</div><div class="bookmark-description">Hey guys, here is my chat app, which is my task 5 showcase, I will update the blog link over here shortly, and if you want me to make a complete video tutori...</div></div><div class="bookmark-href"><img src="https://www.youtube.com/s/desktop/909f7d8f/img/favicon.ico" class="icon bookmark-icon"/>https://youtu.be/XmYdgzglaFk</div></div><img src="https://i.ytimg.com/vi/XmYdgzglaFk/hqdefault.jpg" class="bookmark-image"/></a></figure><figure id="f011b3fa-000d-4865-8ecc-13b9b8062ca7" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Chat_App_image.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Chat_App_image.png"/></a></figure><p id="5c28b7a9-caea-4890-964f-4dbf54b4473e" class="">Excited to know how I built the app? Well let&#x27;s get going.</p><h2 id="95957be1-554d-4b81-a53c-f7c07f793fc2" class="block-color-teal_background">Fire base Setup</h2><p id="b396af1f-20e4-4a7b-9990-f2e0346ee343" class="">First of all we will setup firebase, and we don&#x27;t know need a credit card for this app, select the spark plan when prompted.</p><p id="384c2225-adc9-4d41-8ec0-6d48b13efcf9" class="">Navigate to <a href="https://firebase.google.com/">Firebase</a>.</p><p id="7873497f-0408-4c62-a62e-de4e935e801d" class="">Here is how it will looks:</p><figure id="73963b82-d43c-4562-87ad-5178bab58652" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled.png"/></a></figure><p id="a89d90bd-610c-4feb-a8a1-4306b31d267c" class="">You might be greeted with Sign in, instead of your google account showing up, so sign in to your favorite account, and then hit Go to console.</p><p id="22ac9fcf-8cf4-4ed6-bdf8-1603fa89bc65" class="">It should look like this, except if you are new to firebase, you won&#x27;t have any projects.</p><figure id="95818689-0f70-4715-8e51-17bedf0b88bc" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%201.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%201.png"/></a></figure><p id="cde431f1-fa48-4a8b-a956-df7b0dfcbd84" class="">Then click Add Project, you will be greeted with this page:</p><figure id="d541ae8c-0eb7-439a-be5f-afb41755e55a" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%202.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%202.png"/></a></figure><p id="26bd373d-8d83-4096-acc2-4d19ab16d3c0" class="">Add the name of your project, I would suggest keep it similar to the app, like ChatApp in this case. After adding the project name, hit continue.</p><p id="68bf9d43-a126-4536-8417-6888071956c0" class="">Next, you will see this page:</p><figure id="6fb71ed5-ea8d-4a81-b0d1-0e6ce838c971" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%203.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%203.png"/></a></figure><p id="36d004aa-48c0-4286-9058-d82784f1a957" class="">Leave it is as it is, and then hit continue.</p><p id="a259dea2-0ebe-491c-8eae-783ee60f2aae" class="">In the next page, select the drop down menu and select Default Account for Firebase, and then hit continue.</p><figure id="31857e67-a3eb-4db4-a92d-55d318bc0438" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%204.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%204.png"/></a></figure><p id="95c428ee-77b0-4331-869c-c94b3360c675" class="">Those are steps for adding a new project for Firebase.</p><figure id="c311a0aa-e53d-40b1-853c-fa406021d6d4" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%205.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%205.png"/></a></figure><p id="f3517077-8ce9-405c-8daa-943cb1b8233d" class="">Now, the home page of a firebase project looks like this, </p><figure id="6ec65e17-8f35-402a-8545-668c463eddbd" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%206.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%206.png"/></a></figure><p id="ab16ec5c-192e-4a09-a4c0-54b45f25a558" class="">Make sure you have spark plan besides your ChatApp, which means you won&#x27;t be charged anything. Now in the left you can see a list of services that firebase provides, in this app you will be using Authentication, Firestore, and storage. </p><p id="6c905f95-83a6-488d-a311-cdfb9ac19cdc" class="">Let&#x27;s set up Android first, iOS is similar to android setup, on the project page, click on the android logo, below the text &quot;Get started by adding Firebase to your app&quot;.</p><p id="1027aa71-961a-4d02-adfd-0339d582149a" class="">After that, you will be greeted with this page:</p><figure id="69d33151-4437-48e9-8c67-7f28d1a658a9" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%207.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%207.png"/></a></figure><p id="bde15b1e-1dbc-4c2a-990e-b0e8ec3a2703" class="">In the android package name, hower on the question icon, and it will guide you where it is: </p><figure id="0d5ea3b3-6307-464c-a5c9-475b75ac507f" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%208.png"><img style="width:1920px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%208.png"/></a></figure><p id="c2662dc9-45e9-4b2d-a229-2552fb7b7f04" class="">I will show how to navigate there, </p><p id="f52932af-1d20-473a-8571-8ca4705903e7" class="">In the main directory of your app folder, navigate to android, and then to app, and there you will find build.gradle:</p><figure id="d993b833-8b7d-4951-aaec-44fc81763829" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%209.png"><img style="width:448px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%209.png"/></a></figure><p id="53071500-8875-4482-8937-dea632d35831" class="">Over here, you can find applicationId, under defaultConfig: </p><figure id="298c2031-d6c5-40ec-8134-d24b771e8fa8" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2010.png"><img style="width:1219px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2010.png"/></a></figure><p id="eaea44e1-2aec-4e9a-9b6c-15cbb6d811b8" class="">No need to add App Nickname, and Debug signing certificate SHA-1, now follow the other steps, and your Android app will be set.</p><p id="c1ff4ac2-0a43-4e03-8cca-ce73eec53a68" class="">After you have done, close the tab, and navigate to:</p><p id="26b09368-591d-4d22-b897-7c41a762b8bf" class=""><a href="https://console.firebase.google.com/">https://console.firebase.google.com/</a></p><p id="e1eac0b7-4db7-4e29-a10a-7fc816b749e3" class="">Under your project name, you will be able to see Android Icon, like this: </p><figure id="7d0b8b23-ea9c-4cb3-861b-d69e44dc9957" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2011.png"><img style="width:352px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2011.png"/></a></figure><p id="ac82e73a-832a-462b-847b-d830c5b25e2f" class="">Now click your app name, and go to authentication, which is present in the left column, and follow the steps, and select only email from the list of authentication. After you have set it successfully, you will be greeted with this page: </p><figure id="bf2444f4-569f-40bd-9c47-eb4c7075d9a1" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2012.png"><img style="width:1612px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2012.png"/></a></figure><p id="f0855455-2c2c-475f-9952-e48b02cecd0a" class="">Then, initialize Firestore, again from the left panel, and follow the steps, don&#x27;t worry, they are easy, the first step will be: </p><figure id="48690de7-3e31-4e12-be5a-0365eed5cd37" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2013.png"><img style="width:1617px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2013.png"/></a></figure><p id="35bf1566-d221-4fdd-94c3-43364d9763df" class="">Click Create database, and then select Start in <strong>production mode, </strong>and then click next.</p><figure id="44900113-6aaf-4c06-b205-4321fad16b33" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2014.png"><img style="width:985px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2014.png"/></a></figure><p id="614bb57a-7544-4b76-b853-f74d463055ff" class="">Now it is time to select the server, so now select one wisely,  because this will decide how quick users receive message, because it will reduce the latency, in my case it will be, asia-east2, and remember it can&#x27;t be changed afterwards, so choose wisely, and click enable.</p><figure id="bd3f462c-d5c7-4d12-a53e-993a64b87b9e" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2015.png"><img style="width:981px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2015.png"/></a></figure><p id="64652589-2df6-4e17-bc43-51ec89d76870" class="">After successfully completing the steps, the page will look like this: </p><figure id="75e7e799-2a8d-488c-80bf-5c3d74b1c28a" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2016.png"><img style="width:1613px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2016.png"/></a></figure><p id="ea52fdcf-3deb-4a6b-ba0b-3a91f494e799" class="">Now select rules on the same page, and change them to:
+</p><pre id="674c959d-e18d-426a-b7c1-b3eddb75191c" class="code"><code>rules_version = &#x27;2&#x27;;
+service cloud.firestore {
+  match /databases/{database}/documents {
+		
+    match /users/{uid} {
+    	allow write: if request.auth != null &amp;&amp; request.auth.uid == uid;
+    }
+    
+    match /users/{uid} {
+    	allow read: if request.auth != null;
+    }
+  	
+    match /chat/{document=**} {
+    	allow read, create: if request.auth != null;
+    }
+  }
+}</code></pre><p id="699d570d-5ad2-4f53-824e-85dcc376e55c" class="">Now, let&#x27;s peek at all of the dependencies in pubspec.yaml fil</p><figure id="4a2eab8b-4b2a-4469-b912-8fe6ad99e465" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2017.png"><img style="width:858px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2017.png"/></a></figure><p id="d3485153-ee61-4165-9f1e-681e94eb6c04" class="">Make sure to keep the versions same, because if there is a new update, my code might not work.</p><p id="ea24426a-810c-492c-b126-0b23a87ec8bb" class="">Now, head to android → app → src → main → AndroidManifest.xml, and add this code under the meta-data tag:</p><pre id="49dc137a-d8b7-46e2-ba0b-edf7035d9af7" class="code"><code>&lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.intent.action.MAIN&quot;/&gt;
+                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;/&gt;
+            &lt;/intent-filter&gt;
+            &lt;intent-filter&gt;
+              &lt;action android:name=&quot;FLUTTER_NOTIFICATION_CLICK&quot; /&gt;
+              &lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;
+            &lt;/intent-filter&gt;</code></pre><p id="b1433f8b-bc7e-4397-85a3-dee9694f238f" class="">So the file should look like this: </p><figure id="6251ef3c-1c26-431a-a1de-b1153f019cc4" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2018.png"><img style="width:1103px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2018.png"/></a></figure><p id="aed8cdb1-eef4-4f20-a273-a417956c52e7" class="">Very Good.</p><p id="adee3644-d137-41a8-b4be-bc9c9d52d987" class="">Now open build.gradle file, which is located in android → app, and add these in the dependencies{}:</p><pre id="55140ee7-29a6-4813-a95b-def0b65d45e1" class="code"><code>		implementation &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version&quot;
+    implementation platform(&#x27;com.google.firebase:firebase-bom:26.0.0&#x27;)
+    implementation &#x27;com.google.firebase:firebase-analytics&#x27;
+    implementation &#x27;com.android.support:multidex:1.0.3&#x27;</code></pre><p id="92980aca-8c82-4c44-bd5b-a83ef6333bb1" class="">And below the dependencies, after the curly bracket, add this:</p><pre id="040cfa38-345a-47ba-86b5-82bfbc4a1b33" class="code"><code>apply plugin: &#x27;com.google.gms.google-services&#x27;</code></pre><p id="e5f17999-62df-4f27-a5f8-90f57478cc24" class="">So, it will look like this: </p><figure id="e6060368-ef9d-4320-a6b3-76803d737bf8" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2019.png"><img style="width:957px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2019.png"/></a></figure><p id="f05fec1e-0975-4b91-b739-3c686134bbc3" class="">Now in the android level build.gradle, which is located in android → build.gradle, add this code under buildscript, under dependencies.</p><pre id="29d8421b-9dd1-4282-afb8-1225bae60610" class="code"><code>dependencies {
+        classpath &#x27;com.android.tools.build:gradle:3.5.0&#x27;
+        classpath &quot;org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version&quot;
+        classpath &#x27;com.google.gms:google-services:4.3.4&#x27;
+    }</code></pre><figure id="2a8948f0-cf6e-4905-8164-1f5b6b42969f" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2020.png"><img style="width:968px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2020.png"/></a></figure><hr id="61dfb8ff-e2f2-466a-8c8f-ade6dedb00ea"/><h1 id="15fe052f-a803-45c9-b8e3-99b7e2424083" class="block-color-purple_background">Code:</h1><p id="7c848ec8-7574-4c0e-8e79-d0417035ac96" class="">Now we will start the main coding part.</p><h3 id="94139ca7-4efc-4926-882a-6e53e9584897" class="">Code structure</h3><figure id="62c256a0-ad3f-4434-a5e4-e1b81bb20eff" class="image"><a href="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2021.png"><img style="width:240px" src="Flutter%20ChatApp%20(Task%205)%202b5a0fcde9ae452d953fb57c49067654/Untitled%2021.png"/></a></figure><h3 id="eeb5be0d-bcfa-43d6-9220-ce7255cbd1c6" class="">main.dart</h3><pre id="effa1506-550d-4d5c-b77f-f76df3732ab0" class="code"><code>import &#x27;package:chatapp/screens/auth_screen.dart&#x27;;
+import &#x27;package:chatapp/screens/chat_screen.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: &#x27;Flutter Chat App&#x27;,
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+        backgroundColor: Colors.pink,
+        accentColor: Colors.deepPurple,
+        accentColorBrightness: Brightness.dark,
+        buttonTheme: ButtonTheme.of(context).copyWith(
+          buttonColor: Colors.pink,
+          textTheme: ButtonTextTheme.primary,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.onAuthStateChanged,
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return ChatScreen();
+          }
+          return AuthScreen();
+        },
+      ),
+    );
+  }
+}</code></pre><h3 id="3911fe15-6640-4234-aefb-d1095bc5412e" class="">auth_screen.dart</h3><p id="9b256723-6d4f-4a88-9905-c85ce2e69a64" class="">To authenticate an user, for login and sign in, and remember this is not the UI, I am gonna add the code for the UI after this code.</p><pre id="12a7b513-8183-4676-acbd-64289b3afae2" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:chatapp/widgets/auth/auth_form.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/services.dart&#x27;;
+import &#x27;package:cloud_firestore/cloud_firestore.dart&#x27;;
+import &#x27;package:firebase_storage/firebase_storage.dart&#x27;;
+
+class AuthScreen extends StatefulWidget {
+  @override
+  _AuthScreenState createState() =&gt; _AuthScreenState();
+}
+
+class _AuthScreenState extends State&lt;AuthScreen&gt; {
+  final _auth = FirebaseAuth.instance;
+  var _isLoading = false;
+
+  void _submitAuthForm(String email, String password, String username,
+      File image, bool isLogin, BuildContext ctx) async {
+    AuthResult authResult;
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      if (isLogin) {
+        authResult = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+      } else {
+        authResult = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child(&#x27;user_image&#x27;)
+            .child(authResult.user.uid + &#x27;.jpg&#x27;);
+
+        await ref.putFile(image).onComplete;
+
+        final url = await ref.getDownloadURL();
+
+        await Firestore.instance
+            .collection(&#x27;users&#x27;)
+            .document(authResult.user.uid)
+            .setData({
+          &#x27;username&#x27;: username,
+          &#x27;email&#x27;: email,
+          &#x27;image_url&#x27;: url,
+        });
+      }
+    } on PlatformException catch (err) {
+      var message = &#x27;An error occurred please check your credentials&#x27;;
+
+      if (err.message != null) {
+        message = err.message;
+      }
+
+      Scaffold.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Theme.of(ctx).errorColor,
+        ),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (err) {
+      setState(() {
+        _isLoading = false;
+      });
+      print(err);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: AuthForm(
+        _submitAuthForm,
+        _isLoading,
+      ),
+    );
+  }
+}</code></pre><p id="07841306-fe02-4a94-830c-853dba3865bd" class="">
+</p><h3 id="64f46be2-c0ab-4825-9f26-7bc3ed47d27b" class="">chat_screen.dart</h3><pre id="eace124f-2a7f-44df-9792-b2e34f5e9e6d" class="code"><code>import &#x27;package:chatapp/widgets/chat/messages.dart&#x27;;
+import &#x27;package:chatapp/widgets/chat/new_message.dart&#x27;;
+import &#x27;package:firebase_messaging/firebase_messaging.dart&#x27;;
+import &#x27;package:flutter/cupertino.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter_geofire/flutter_geofire.dart&#x27;;
+import &#x27;package:google_maps_flutter/google_maps_flutter.dart&#x27;;
+
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() =&gt; _ChatScreenState();
+  var geoLocator = Geolocator();
+  Position currentPosition;
+}
+
+void setupPositionLocator() async {
+    Position position = await geoLocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    currentPosition = position;
+    LatLng pos = LatLng(position.latitude, position.longitude);
+    CameraPosition cp = new CameraPosition(target: pos, zoom: 14);
+    mapController.animateCamera(CameraUpdate.newCameraPosition(cp));
+    String address =
+        await HelperMethods.findCordinateAddress(position, context);
+    startGeofireListener();
+  }
+
+class _ChatScreenState extends State&lt;ChatScreen&gt; {
+  @override
+  void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.requestNotificationPermissions();
+    fbm.configure(onMessage: (msg) {
+      print(msg);
+      return;
+    }, onLaunch: (msg) {
+      print(msg);
+      return;
+    }, onResume: (msg) {
+      print(msg);
+      return;
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&#x27;Flutter Chat App, &#x27; currentPosition),
+        actions: [
+          DropdownButton(
+            icon: Icon(
+              Icons.more_vert,
+              color: Theme.of(context).primaryIconTheme.color,
+            ),
+            items: [
+              DropdownMenuItem(
+                child: Container(
+                  child: Row(
+                    children: &lt;Widget&gt;[
+                      Icon(Icons.exit_to_app),
+                      SizedBox(width: 8),
+                      Text(&#x27;Logout&#x27;),
+                    ],
+                  ),
+                ),
+                value: &#x27;logout&#x27;,
+              )
+            ],
+            onChanged: (itemIdentifier) {
+              if (itemIdentifier == &#x27;logout&#x27;) {
+                FirebaseAuth.instance.signOut();
+              }
+            },
+          )
+        ],
+      ),
+      body: Container(
+        child: Column(
+          children: &lt;Widget&gt;[
+            Expanded(
+              child: Messages(),
+            ),
+            NewMessage()
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre><h2 id="1dfc4b08-6012-426b-a400-1331b51fac6b" class="block-color-orange_background">widgets</h2><p id="f7713ead-c473-4242-af23-407df43713b1" class="">Now we will code widgets, as an aspiring software engineering, I would suggest, to create different dart files for parts of your code, which makes your code look cleaner and more easier to read.</p><p id="cb8ef929-f40f-43f7-a737-70b67d35fb64" class="">
+</p><h3 id="f5b7d644-42f3-4675-9258-be9493fd493d" class="">auth_form.dart</h3><p id="95a4448e-0808-431c-8965-d98cb1cde68c" class="">This code is the UI for over authentication form</p><pre id="96fa0197-f3cc-4fbf-89d4-b32b543260dd" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:chatapp/widgets/pickers/user_image_picker.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class AuthForm extends StatefulWidget {
+  AuthForm(this.submitFn, this.isLoading);
+
+  final bool isLoading;
+
+  final void Function(String email, String password, String username,
+      File image, bool isLogin, BuildContext ctx) submitFn;
+
+  @override
+  _AuthFormState createState() =&gt; _AuthFormState();
+}
+
+class _AuthFormState extends State&lt;AuthForm&gt; {
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  var _isLogin = true;
+  var _userEmail = &#x27;&#x27;;
+  var _userName = &#x27;&#x27;;
+  var _userPassword = &#x27;&#x27;;
+  File _userImageFile;
+
+  void _pickedImage(File image) {
+    _userImageFile = image;
+  }
+
+  void _trySubmit() {
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+
+    if (_userImageFile == null &amp;&amp; !_isLogin) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          content: Text(&quot;Please pick an Image.&quot;),
+          backgroundColor: Theme.of(context).errorColor,
+        ),
+      );
+      return;
+    }
+
+    if (isValid) {
+      _formKey.currentState.save();
+      widget.submitFn(_userEmail.trim(), _userPassword.trim(), _userName.trim(),
+          _userImageFile, _isLogin, context);
+      //Use those values to send our Auth values
+    } //If all of the validator return Null values.
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        margin: EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: &lt;Widget&gt;[
+                  if (!_isLogin) UserImagePicker(_pickedImage),
+                  TextFormField(
+                    key: ValueKey(&#x27;email&#x27;),
+                    validator: (value) {
+                      if (value.isEmpty || !value.contains(&#x27;@&#x27;)) {
+                        return &#x27; Please enter a valid email address.&#x27;;
+                      }
+                      return null;
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: &#x27;Email Address&#x27;,
+                    ),
+                    onSaved: (value) {
+                      _userEmail = value;
+                    },
+                  ), //Email field
+                  if (!_isLogin)
+                    TextFormField(
+                      key: ValueKey(&#x27;username&#x27;),
+                      validator: (value) {
+                        if (value.isEmpty || value.length &lt; 4) {
+                          return &#x27;Username length must be at least 4 characters&#x27;;
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        labelText: &#x27;Username&#x27;,
+                      ),
+                      onSaved: (value) {
+                        _userName = value;
+                      },
+                    ), //Username
+                  TextFormField(
+                    key: ValueKey(&#x27;password&#x27;),
+                    validator: (value) {
+                      if (value.isEmpty || value.length &lt; 7) {
+                        return &#x27;Password should be atleast 7 characters long&#x27;;
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: &#x27;Password&#x27;,
+                    ),
+                    onSaved: (value) {
+                      _userPassword = value;
+                    },
+                    obscureText: true,
+                  ), //Password
+                  SizedBox(height: 12),
+                  if (widget.isLoading) CircularProgressIndicator(),
+                  if (!widget.isLoading)
+                    RaisedButton(
+                      child: Text(_isLogin ? &#x27;Login&#x27; : &#x27;Signup&#x27;),
+                      onPressed: _trySubmit,
+                    ),
+                  if (!widget.isLoading)
+                    FlatButton(
+                        textColor: Theme.of(context).primaryColor,
+                        child: Text(_isLogin
+                            ? &#x27;Create New Account&#x27;
+                            : &#x27;I already have an account&#x27;),
+                        onPressed: () {
+                          setState(() {
+                            _isLogin = !_isLogin;
+                          });
+                        }),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><p id="73f5b2de-4543-4ed0-92c7-e51019fd413e" class="">
+</p><h3 id="6f5c3e62-a661-4224-a1bc-db470c5573f8" class="">message_bubble.dart</h3><p id="a2649534-ca19-4c28-a283-c19d8b96f109" class="">This code will take care of our messages UI.</p><pre id="76a1c2c5-889c-439b-bdf6-a0f00d825728" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+class MessageBubble extends StatelessWidget {
+  MessageBubble(this.message, this.userName, this.userImage, this.isMe,
+      {this.key});
+
+  final Key key;
+  final String message;
+  final String userName;
+  final String userImage;
+  final bool isMe;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Row(
+          mainAxisAlignment:
+              isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: &lt;Widget&gt;[
+            Container(
+              decoration: BoxDecoration(
+                  color:
+                      isMe ? Colors.grey[300] : Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                    bottomLeft:
+                        !isMe ? Radius.circular(0) : Radius.circular(12),
+                    bottomRight:
+                        isMe ? Radius.circular(0) : Radius.circular(12),
+                  )),
+              width: 140,
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 16,
+              ),
+              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+              child: Column(
+                crossAxisAlignment:
+                    isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                children: &lt;Widget&gt;[
+                  Text(
+                    userName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: isMe
+                            ? Colors.black
+                            : Theme.of(context)
+                                .accentTextTheme
+                                .headline1
+                                .color),
+                  ),
+                  Text(
+                    message,
+                    style: TextStyle(
+                        color: isMe
+                            ? Colors.black
+                            : Theme.of(context)
+                                .accentTextTheme
+                                .headline1
+                                .color),
+                    textAlign: isMe ? TextAlign.end : TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Positioned(
+            top: 0,
+            left: isMe ? null : 120,
+            right: isMe ? 120 : null,
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(
+                userImage,
+              ),
+            )),
+      ],
+      overflow: Overflow.visible,
+    );
+  }
+}</code></pre><p id="3ea1ad36-5c45-4ca5-9007-255bcd75c1f9" class="">
+</p><h3 id="23cd2ea2-debd-43a3-af85-e25baa68d656" class="">messages.dart</h3><pre id="2aa0f983-f1a4-40c5-9703-09b4a6aabea1" class="code"><code>import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:cloud_firestore/cloud_firestore.dart&#x27;;
+
+import &#x27;message_bubble.dart&#x27;;
+
+class Messages extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: FirebaseAuth.instance.currentUser(),
+      builder: (ctx, futureSnapshot) {
+        if (futureSnapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return StreamBuilder(
+            stream: Firestore.instance
+                .collection(&#x27;chat&#x27;)
+                .orderBy(&#x27;createdAt&#x27;, descending: true)
+                .snapshots(),
+            builder: (ctx, chatSnapshot) {
+              if (chatSnapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              final chatDocs = chatSnapshot.data.documents;
+              return ListView.builder(
+                reverse: true,
+                itemCount: chatDocs.length,
+                itemBuilder: (ctx, index) =&gt; MessageBubble(
+                    chatDocs[index][&#x27;text&#x27;],
+                    chatDocs[index][&#x27;username&#x27;],
+                    chatDocs[index][&#x27;userImage&#x27;],
+                    chatDocs[index][&#x27;userId&#x27;] == futureSnapshot.data.uid,
+                    key: ValueKey(chatDocs[index].documentID)),
+              );
+            });
+      },
+    );
+  }
+}</code></pre><p id="49f69122-2095-419c-95b5-b02bb674f5a8" class="">
+</p><h3 id="fb7a28d7-34fe-4890-a8e2-604428889591" class="">new_message.dart</h3><pre id="9b467842-cb9c-4fd4-8cfb-7e5d6938ced2" class="code"><code>import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:cloud_firestore/cloud_firestore.dart&#x27;;
+
+class NewMessage extends StatefulWidget {
+  @override
+  _NewMessageState createState() =&gt; _NewMessageState();
+}
+
+class _NewMessageState extends State&lt;NewMessage&gt; {
+  final _controller = new TextEditingController();
+  var _enteredMessage = &#x27;&#x27;;
+
+  void _sendMessage() async {
+    FocusScope.of(context).unfocus();
+    final user = await FirebaseAuth.instance.currentUser();
+    final userData =
+        await Firestore.instance.collection(&#x27;users&#x27;).document(user.uid).get();
+    Firestore.instance.collection(&#x27;chat&#x27;).add({
+      &#x27;text&#x27;: _enteredMessage,
+      &#x27;createdAt&#x27;: Timestamp.now(),
+      &#x27;userId&#x27;: user.uid,
+      &#x27;username&#x27;: userData[&#x27;username&#x27;],
+      &#x27;userImage&#x27;: userData[&#x27;image_url&#x27;],
+    });
+    _controller.clear();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(top: 8),
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: &lt;Widget&gt;[
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(labelText: &#x27;Send a message&#x27;),
+                onChanged: (value) {
+                  setState(() {
+                    _enteredMessage = value;
+                  });
+                },
+              ),
+            ),
+            IconButton(
+              color: Theme.of(context).primaryColor,
+              icon: Icon(Icons.send),
+              onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
+            )
+          ],
+        ));
+  }
+}</code></pre><p id="beb4bc0b-04ea-4846-bd1a-22228dbd0bda" class="">
+</p><h3 id="e07d1f8a-618f-43ff-9167-dca85b61254e" class="">user_image_picker.dart</h3><p id="c09c43e6-1270-4854-90ab-d742cd74f6d3" class="">This code will allow users to take/choose an image while registering, and that image will be shown beside their messages.</p><pre id="4d629d8d-d655-42bd-9405-748362aa8728" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:image_picker/image_picker.dart&#x27;;
+import &#x27;dart:io&#x27;;
+
+class UserImagePicker extends StatefulWidget {
+  UserImagePicker(this.imagePickFn);
+  final void Function(File pickedImage) imagePickFn;
+  @override
+  _UserImagePickerState createState() =&gt; _UserImagePickerState();
+}
+
+class _UserImagePickerState extends State&lt;UserImagePicker&gt; {
+  File _pickedImage;
+  void _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(
+      source: ImageSource.camera,
+      imageQuality: 60,
+      maxWidth: 250,
+    );
+    final pickedImageFile = File(pickedImage.path);
+    setState(() {
+      _pickedImage = pickedImageFile;
+    });
+    widget.imagePickFn(pickedImageFile);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: &lt;Widget&gt;[
+      CircleAvatar(
+        radius: 40,
+        backgroundColor: Colors.grey,
+        backgroundImage: _pickedImage != null ? FileImage(_pickedImage) : null,
+      ),
+      FlatButton.icon(
+        textColor: Theme.of(context).primaryColor,
+        onPressed: _pickImage,
+        icon: Icon(Icons.image),
+        label: Text(&#x27;Add Image&#x27;),
+      )
+    ]);
+  }
+}</code></pre><p id="47eda60f-b834-4f3f-92ad-233a128e9242" class="">
+</p><p id="7a965075-458f-410f-85df-7d07b461818a" class="">And that&#x27;s all, small code isn&#x27;t it? Well according to many flutter projects, this is a tiny code, there are much bigger codes, I will show one to you in another blog.</p><h3 id="4f5cbe54-774c-4a1a-b3c7-cb7773a4e22a" class="">GitHub</h3><figure id="cd6617c3-2edb-4b8d-8a5d-69d9c95c4cd3"><a href="https://github.com/naitik2314/Flutter-Chat-App" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">naitik2314/Flutter-Chat-App</div><div class="bookmark-description">A new Flutter project. This project is a starting point for a Flutter application. A few resources to get you started if this is your first Flutter project: For help getting started with Flutter, view our online documentation, which offers tutorials, samples, guidance on mobile development, and a full API reference.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/naitik2314/Flutter-Chat-App</div></div><img src="https://opengraph.githubassets.com/8582b3a5c4ff5b0a1bbf0d1d13b9cc99cdf96620aaadf246bb95a3095b1f8e7a/naitik2314/Flutter-Chat-App" class="bookmark-image"/></a></figure><p id="e8d98264-9ce2-4538-926d-3801f5086fef" class="">
+</p><p id="1da4090c-2f43-4e12-9be9-e8915b48e63d" class="">And if you have any doubts, you may reach out to me with your doubts to any of my social media handles.</p><h3 id="bb0bc751-a205-4b35-b1ea-d5dbba01e177" class="">Social Media Handles</h3><div id="c1f2a709-6290-4d10-ada2-50c222c3fcc0" class="column-list"><div id="fcf85ddb-df4e-4fda-8e48-fada9b64b10c" style="width:33.333333333333336%" class="column"><p id="11cf226a-8cd5-44ca-a994-d60ae5813b51" class="">🤝<a href="https://www.linkedin.com/in/naitik-shah-49baba1a1/">LinkedIn</a></p><p id="3c8c13cd-1840-41bf-8c64-5f8a79fec412" class="">
+</p></div><div id="35ca40e5-d304-4e11-919f-46d763fd6092" style="width:33.333333333333336%" class="column"><p id="b27a4639-942a-47cd-9280-a8a0ae41962d" class="">🐱<a href="https://github.com/naitik2314">GitHub</a></p><p id="0f088eb7-0604-46fc-963d-221441945d8e" class="">
+</p></div><div id="c725f1aa-716e-4349-b20e-a5b6c94cbae5" style="width:33.33333333333333%" class="column"><p id="b062821e-a262-4c6b-afa1-4332ace7758a" class="">📱<a href="https://www.instagram.com/naitik2212/">Instagram</a></p></div></div><p id="f2593202-ab9f-43cc-bd0c-9ee18fb09544" class="">Logging off.........Good bye!</p></div></article></body></html>

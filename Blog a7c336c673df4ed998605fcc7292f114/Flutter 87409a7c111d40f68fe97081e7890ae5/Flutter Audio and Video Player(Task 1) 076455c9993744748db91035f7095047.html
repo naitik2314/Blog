@@ -1,0 +1,1730 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter Audio and Video Player(Task 1)</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="076455c9-9937-4474-8db9-1035f7095047" class="page sans"><header><img class="page-cover-image" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/100.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">📹</span></div><h1 class="page-title">Flutter Audio and Video Player(Task 1)</h1></header><div class="page-body"><p id="6e037e59-ba9a-4500-bb42-4f64d5d01bd7" class="">Hello viewers,</p><p id="4ee496fa-134c-4c65-8d91-3087f446bb2d" class="">So, the problem statement I am going to solve today is:</p><ol id="5f047480-8bbd-488c-bbd3-7781dbf07c87" class="numbered-list" start="1"><li>Create a flutter app.</li></ol><ol id="5c7e0977-8d87-48c0-bd30-a53d2cb0999f" class="numbered-list" start="2"><li>Use assets (eg. audios and videos).</li></ol><ol id="2b6ff050-e2ac-4033-82b8-666bbd4347d0" class="numbered-list" start="3"><li>App will have to play this audios and videos from Assets.</li></ol><ol id="98ebe790-6a6e-462c-8f34-31f800315381" class="numbered-list" start="4"><li>Also add Features to play audio and video from Internet(Network).</li></ol><ol id="042996d2-df4f-4b81-962d-daa2e987067f" class="numbered-list" start="5"><li>Create buttons like play, pause and stop for audio and video both.</li></ol><p id="d586baef-99b3-4fe6-b45b-001648ac56e5" class="">Let&#x27;s look at the results, and just a disclaimer, this was pretty much the first page of my life.</p><figure id="01a834ba-3d1f-4264-aed2-0b4368666ba7" class="image"><a href="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Add_a_subheading_(1).png"><img style="width:1920px" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Add_a_subheading_(1).png"/></a></figure><figure id="075d62fa-a273-4e9b-bad7-af1f7f6d4f5a" class="image"><a href="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Add_a_subheading_(2).png"><img style="width:1920px" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Add_a_subheading_(2).png"/></a></figure><p id="12ab9086-f47d-4247-a695-42b73d530859" class="">But looking at the result, I am pretty pleased.</p><p id="d8f35d52-89d6-4361-8c2f-7dd8d09646ee" class="">Excited to know how I built the app? Well let&#x27;s get going.</p><p id="e9c55935-556f-4e5d-b59e-10db09a897c2" class="">So, let&#x27;s have a look at the pubspec.yaml file, so that you are well off with dependencies.</p><pre id="54584522-439f-42b3-8d51-464a5497df5f" class="code"><code>name: bootcamp_media_player
+description: A new Flutter project.
+version: 1.0.0+1
+environment:
+  sdk: &quot;&gt;=2.1.0 &lt;3.0.0&quot;
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  video_player: ^0.10.2+1
+  file_picker: ^1.4.0
+  audioplayers: ^0.13.2
+  velocity_x: ^1.0.1
+  google_fonts: ^1.1.1
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  assets:
+   - assets/
+  fonts:
+    - family: Brand-Bold
+      fonts:
+        - asset: fonts\bolt-semibold.ttf
+    - family: Brand-Regular
+      fonts:
+        - asset: fonts\bolt-regular.ttf</code></pre><p id="f0b4583f-686b-45bf-acc6-abb4606f874f" class="">So, you might be wondering, what is with the fonts, well I added custom fonts, because I kinda don&#x27;t like the Flutter fonts a lot. In order to download the fonts file, head over to the GitHub repository of this project. </p><h2 id="1e6aad7a-b145-4496-915e-d17c152c3bdf" class="">Code Structure</h2><p id="c17d8493-9318-4ff0-ad61-ae35fd5ce80e" class="">Now, let&#x27;s look at the code structure.</p><figure id="4cc17d2c-b245-4a0a-acfd-eee8e0bbc6b6" class="image"><a href="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled.png"><img style="width:240px" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled.png"/></a></figure><p id="70139cfb-c4b8-402a-9f02-1b1217f2efee" class="">So, the videos and audio you want your app to play under the Play local audio, and Play local video, add them in the assets folder.</p><h2 id="68956854-e204-40ed-bc2e-57cc73473680" class="">Code</h2><h3 id="161ef123-8744-44ca-a774-17cd94e1eee4" class="block-color-teal_background">TaxiButton.dart</h3><p id="f68de392-f89d-4880-acb8-63f66a825ed1" class="">Now, in the home page of the app, as you can see, I have used six identical buttons, with only their text changing, so there was no point in even copy pasting the code, so I created a widgets folder in lib, and named it TaxiButton.dart, well actually I reused this code from another project I will be adding a blog of it soon. So, let&#x27;s look at the code.</p><pre id="2505a633-2236-45cc-abf2-9a62a14dcdac" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+class TaxiButton extends StatelessWidget {
+  final String title;
+  final Color color;
+  final Function onPressed;
+
+  TaxiButton({this.title, this.onPressed, this.color});
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: onPressed,
+      shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(25)),
+      color: color,
+      textColor: Colors.white,
+      child: Container(
+        height: 50,
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 18, fontFamily: &#x27;Brand-Bold&#x27;),
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><p id="226b2a08-babe-4593-a2dc-9c8441f2704a" class="">See, how easily this code can be reused within the whole project, and even in your future projects.</p><h3 id="8bdefc52-aa46-4b8b-af12-55bd917ca62e" class="block-color-blue_background">BrandColors.dart</h3><p id="6c7b8b3f-b5ce-4619-80e7-8e6cef7f7b5a" class="">Now, if you are going to use a specific color more than once, then it is a good idea to create a separate file for it which has all of the color codes in it. You can actually add the color in the TaxiButton.dart file, but I want it to be as flexible as possible, so II created a file called BrandColors.dart, which is presented in the lib folder.</p><pre id="e3989b6a-cd60-43ee-95da-d7f38a971e08" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+
+class BrandColors{
+
+  static const Color colorPrimary = Color(0xFF2B1A64);
+  static const Color colorPrimaryDark = Color(0xFF1c3aa9);
+  static const Color colorAccent = Color(0xFF21ba45);
+  static const Color colorAccent1 = Color(0xFFe3fded);
+
+  static const Color colorBackground = Color(0xFFFBFAFF);
+
+  static const Color colorPink = Color(0xFFE66C75);
+  static const Color colorOrange = Color(0xFFE8913A);
+  static const Color colorBlue = Color(0xFF2254A3);
+  static const Color colorAccentPurple = Color(0xFF4f5cd1);
+
+
+
+  static const Color colorText = Color(0xFF383635);
+  static const Color colorTextLight = Color(0xFF918D8D);
+  static const Color colorTextSemiLight = Color(0xFF737373);
+  static const Color colorTextDark = Color(0xFF292828);
+
+  static const Color colorGreen = Color(0xFF40cf89);
+  static const Color colorLightGray = Color(0xFFe2e2e2);
+  static const Color colorLightGrayFair = Color(0xFFe1e5e8);
+  static const Color colorDimText = Color(0xFFadadad);
+
+
+
+}</code></pre><p id="75c6be97-2ca9-4931-9a0b-4238f1efdcaf" class="">And this file contains all of my favorite which I like to use, so you might not need all of these colors, but yeah even this file can be used in your other projects too.</p><h3 id="64d106ff-3574-433a-a0ba-1c5a409a4861" class="">main.dart</h3><p id="33e8c21f-bc65-497b-9453-b05757f67570" class="">Now let&#x27;s code the main.dart file, now on the code is pretty self explanatory, and if you need my help, you can always message me on my social media handles(which are given in the end of the file).</p><pre id="1aa9927c-ed2c-4290-b496-9d130022d277" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:bootcamp_media_player/audio/audio_local.dart&#x27;;
+import &#x27;package:bootcamp_media_player/audio/audio_network.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_assets.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_file.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_network.dart&#x27;;
+import &#x27;package:file_picker/file_picker.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;audio/audio_assets.dart&#x27;;
+import &#x27;brand_colors.dart&#x27;;
+import &#x27;widgets/TaxiButton.dart&#x27;;
+
+void main() =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: &#x27;Media Player&#x27;,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  _pickVideoFileFrom(context) async {
+    File videoFile = await FilePicker.getFile(type: FileType.VIDEO);
+    if (videoFile == null) {
+      print(&quot;Video Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return VideoFile(
+        file: videoFile,
+      );
+    }));
+  }
+
+  _pickAudioFileFrom(context) async {
+    File audioFile = await FilePicker.getFile(type: FileType.AUDIO);
+    if (audioFile == null) {
+      print(&quot;Audio Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AudioLocal(
+        file: audioFile,
+      );
+    }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: &lt;Widget&gt;[
+                SizedBox(
+                  height: 70,
+                ),
+                Image(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  width: 100.0,
+                  image: AssetImage(&#x27;assets/video-player.png&#x27;),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  &#x27;Media Player&#x27;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25, fontFamily: &#x27;Brand-Bold&#x27;),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Internet&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return VideoNetwork();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Assets&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return VideoAssets();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Local&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    _pickVideoFileFrom(context);
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Network&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return AudioNetwork();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Assets&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return AudioAssets();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Local&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    _pickAudioFileFrom(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+}</code></pre><h2 id="1b0b3bc3-5be0-4d5d-aba6-b216c2029601" class="">Video</h2><p id="4d801881-5598-40de-8f27-267c4b7ac5b9" class="">Here&#x27;s is how to setup the video app of our app.</p><h3 id="42174b6c-f3a5-41e8-8972-974ef8e94847" class="block-color-red_background">Permission</h3><p id="30bbd95d-c835-40b5-aff9-6dafa9695316" class=""><strong>Warning: </strong>The video player is not functional on iOS simulators. An iOS device must be used during development/testing.</p><p id="a0ba211d-8a2f-483d-9467-7881aade4075" class="">Add the following entry to your Info.plist file, located in ios → Runner:</p><pre id="4d090d89-22a4-4b5f-aa56-7a379b470c1b" class="code"><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+&lt;dict&gt;
+  &lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+  &lt;true/&gt;
+&lt;/dict&gt;</code></pre><p id="4c6a7e03-76a2-4b49-882d-797bf6ef6835" class="">In the same file(Info.plist), add this permission for file_picker:</p><pre id="7e49e127-f720-4029-92a8-b21fa068eba6" class="code"><code>&lt;key&gt;NSAppleMusicUsageDescription&lt;/key&gt;
+&lt;string&gt;Explain why your app uses music&lt;/string&gt;
+&lt;key&gt;NSPhotoLibraryUsageDescription&lt;/key&gt;
+&lt;string&gt;Explain why your app uses photo library&lt;/string&gt;</code></pre><p id="d43cc7b3-d211-4078-9a00-6e6c0e612639" class="">Ensure the following permission is present in your Android Manifest file, located in android → app → src → main → AndroidManifest.xml, and this file is also known as app level file, because as the name suggests, it is present inside the app folder of our project.</p><pre id="5c969845-9b61-4529-88f5-3f635ffcbe5e" class="code"><code>&lt;uses-permission android:name=&quot;android.permission.INTERNET&quot;/&gt;</code></pre><p id="db637c7c-41d5-46d0-9365-73ec949b81ac" class="">For your reference: </p><figure id="613beae5-0cde-4fce-8148-1e6fddb9730a" class="image"><a href="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled%201.png"><img style="width:288px" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled%201.png"/></a></figure><figure id="b4afae61-6e2e-446e-9cd4-3e953e55ae6b" class="image"><a href="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled%202.png"><img style="width:782px" src="Flutter%20Audio%20and%20Video%20Player(Task%201)%20076455c9993744748db91035f7095047/Untitled%202.png"/></a></figure><h3 id="d4e77b73-f1f8-4519-a2da-c39fc8c0333a" class="block-color-yellow_background">Supported Formats</h3><p id="eb6bab1a-632f-4971-b63d-7101531df1e4" class="">On iOS, the backing player is AVPlayer. The supported formats vary depending on the version of iOS, AVURLAsset class has audiovisualTypes that you can query for supported av formats. On Android, the backing player is ExoPlayer</p><h3 id="9da54fba-fdea-4f57-9e5d-d2d6157a152a" class="block-color-brown_background">Video from Internet</h3><p id="7526fe96-313c-4e50-a9f0-7e29a427ef16" class="">Declare a variable in your code with a VideoPlayerController, this is the one we are going to use with VideoPlayer.</p><pre id="91a4f4d0-5ab2-40d8-9549-9e7dead233ba" class="code"><code>VideoPlayerController _videoPlayerController = VideoPlayerController.network(
+      &quot;https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4&quot;,);</code></pre><p id="fb873d1c-6b26-4d42-893e-0567caa01a3e" class="">Now initialize the controller call in <strong>initState</strong></p><pre id="be82187d-0458-42a8-8d84-5e75bd966651" class="code"><code>@override
+  void initState() {
+    super.initState();
+    _videoPlayerController
+      ..initialize().then((_) {
+        setState(() {});
+      });
+    _videoPlayerController..addListener(() {
+      setState(() {
+        
+      });
+    });
+  }</code></pre><p id="a7001265-e38e-4468-a9f7-f15b4a59c3df" class="">Now we need an UI to display the code, so here is the complete code for Playing video over the internet:</p><pre id="2ed17cab-015a-40e5-b8db-6f4fb1e29689" class="code"><code>import &#x27;package:video_player/video_player.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class VideoNetwork extends StatefulWidget {
+  @override
+  _VideoNetworkState createState() =&gt; _VideoNetworkState();
+}
+
+class _VideoNetworkState extends State&lt;VideoNetwork&gt; {
+  VideoPlayerController _videoPlayerController = VideoPlayerController.network(
+      &quot;https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_2mb.mp4&quot;,);
+
+  @override
+  void initState() {
+    super.initState();
+    _videoPlayerController
+      ..initialize().then((_) {
+        _videoPlayerController.setLooping(true);
+        setState(() {});
+      });
+    _videoPlayerController..addListener(() {
+      setState(() {
+        
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.removeListener(() {});
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Video From Network&quot;),
+      ),
+      body: Center(
+        child: Column(
+          children: &lt;Widget&gt;[
+            _videoPlayerController.value.initialized
+                ? AspectRatio(
+                    aspectRatio: _videoPlayerController.value.aspectRatio,
+                    child: VideoPlayer(_videoPlayerController),
+                  )
+                : Container(),
+            Center(
+              child: IconButton(
+                icon: Icon(
+                  _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+                onPressed: () {
+                   _videoPlayerController.value.isPlaying ? _videoPlayerController.pause() : _videoPlayerController.play();
+                   setState(() {
+                     
+                   });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="10d07838-93f7-4211-a4fc-4aa33ca75a46" class="block-color-blue_background">Video from Assets</h3><p id="81803555-1038-4009-aaf8-b2834d8e6c74" class="">The only major changes between playing a Video from internt and Assets is the VideoPlayerController part</p><pre id="fe0bc228-58f5-4711-a791-39032ac8b4ba" class="code"><code>VideoPlayerController _videoPlayerController = VideoPlayerController.asset(
+      &quot;assets/video.mp4&quot;,);</code></pre><p id="d2622a01-1367-4026-bd03-56faa7efffc1" class="">For playing video from assets instead of VideoPlayerController.network we use VideoPlayerController.asset and remaining all works same as above. The UI will be kept the same.</p><p id="972dfc3f-9db1-4f5f-8556-08ce115e1580" class="">In order to get the file, we will use the <strong>file_picker </strong>plugin.</p><p id="551dd049-ba90-43cd-9110-1863338a0cce" class="">Code for the Video from assets:</p><p id="e72f3477-b444-4108-95fd-41fba9646f68" class="">video_assets.dart</p><pre id="1e22377a-97e0-451b-b433-c8b50a49c058" class="code"><code>import &#x27;package:video_player/video_player.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class VideoAssets extends StatefulWidget {
+  @override
+  _VideoAssetsState createState() =&gt; _VideoAssetsState();
+}
+
+class _VideoAssetsState extends State&lt;VideoAssets&gt; {
+  VideoPlayerController _videoPlayerController = VideoPlayerController.asset(
+      &quot;assets/video.mp4&quot;,);
+
+  @override
+  void initState() {
+    super.initState();
+    _videoPlayerController
+      ..initialize().then((_) {
+        _videoPlayerController.setLooping(true);
+        setState(() {});
+      });
+    _videoPlayerController..addListener(() {
+      setState(() {
+        
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.removeListener(() {});
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Video From Network&quot;),
+      ),
+      body: Center(
+        child: Column(
+          children: &lt;Widget&gt;[
+            _videoPlayerController.value.initialized
+                ? AspectRatio(
+                    aspectRatio: _videoPlayerController.value.aspectRatio,
+                    child: VideoPlayer(_videoPlayerController),
+                  )
+                : Container(),
+            Center(
+              child: IconButton(
+                icon: Icon(
+                  _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+                onPressed: () {
+                   _videoPlayerController.value.isPlaying ? _videoPlayerController.pause() : _videoPlayerController.play();
+                   setState(() {
+                     
+                   });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="a2554405-7514-4408-a79f-24ff32ba93fc" class="">Video From File</h3><p id="fd89e9af-a743-4528-aa37-238a43079418" class="">The only major changes between playing a Video from internet and Local is the VideoPlayerController part:</p><pre id="a582e0d0-f3c7-4dac-8a07-4a8292c367f4" class="code"><code>VideoPlayerController _videoPlayerController = VideoPlayerController.file(videoFile);</code></pre><p id="c1a65c53-0182-4538-baba-0fac516ddedf" class="">For playing video from Local instead of VideoPlayerController.network we use VideoPlayerController.file and remaining all works same as above. Again the UI won&#x27;t be changed.</p><p id="821c517f-1de5-4563-885c-553ded8fd72b" class="">So in order to get the file we will use file_picker plugin.</p><p id="9bbef907-5a8c-4172-aaa3-3642a29f635f" class="">Code to pick a video file:</p><pre id="f3c1fe61-93e1-4fba-823b-622c3ec8d65d" class="code"><code>_pickVideoFileFrom(context) async {
+    File videoFile = await FilePicker.getFile(type: FileType.VIDEO);
+    if (videoFile == null) {
+        print(&quot;Video Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return VideoFile(
+            file: videoFile,
+        );
+    }));
+}</code></pre><p id="e4af481c-9026-4f2c-a57d-3c567b138e5a" class="">Above code works to pick a file from the Local Storage and passes the file to the New Page where the video will be played.</p><pre id="a1ab2bed-650e-47e4-a4f1-f540c94fae00" class="code"><code>File videoFile = await FilePicker.getFile(type: FileType.VIDEO);</code></pre><p id="8659359c-8eb4-4284-b2ad-7fcb8b0cd8c0" class="">This code specifies which file type should I get for Video we used <strong>FileType.VIDEO</strong> and For Audio we will use <strong>FileType.AUDIO</strong></p><p id="61fdedc8-d148-406c-abb2-f05afef218a1" class="">Final step, but <strong>important: dispose</strong></p><pre id="3e841258-7f0e-4e02-aff6-639fb67e4207" class="code"><code>@override
+void dispose() {
+    _videoPlayerController.removeListener(() {});
+    _videoPlayerController.dispose();
+    super.dispose();
+}</code></pre><p id="9ca4e5ec-5a35-41bb-958c-3390df227a01" class="">The complete code is:</p><pre id="df704328-eebe-4668-b31d-4472315b8592" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:video_player/video_player.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class VideoFile extends StatefulWidget {
+
+  VideoFile({this.file});
+
+  final File file;
+  
+  @override
+  _VideoFileState createState() =&gt; _VideoFileState();
+}
+
+class _VideoFileState extends State&lt;VideoFile&gt; {
+  VideoPlayerController _videoPlayerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _videoPlayerController = VideoPlayerController.file(widget.file,);
+    _videoPlayerController
+      ..initialize().then((_) {
+        _videoPlayerController.setLooping(true);
+        setState(() {});
+      });
+    _videoPlayerController..addListener(() {
+      setState(() {
+        
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.removeListener(() {});
+    _videoPlayerController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Video From Network&quot;),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: &lt;Widget&gt;[
+              _videoPlayerController.value.initialized
+                  ? AspectRatio(
+                      aspectRatio: _videoPlayerController.value.aspectRatio,
+                      child: VideoPlayer(_videoPlayerController),
+                    )
+                  : Container(),
+              Center(
+                child: IconButton(
+                  icon: Icon(
+                    _videoPlayerController.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                  ),
+                  onPressed: () {
+                     _videoPlayerController.value.isPlaying ? _videoPlayerController.pause() : _videoPlayerController.play();
+                     setState(() {
+                       
+                     });
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><h2 id="67a29ed7-211d-4e95-921e-cb898b367bf1" class="">Audio</h2><p id="1958cd29-0a8a-45fb-98d8-e31c24f3ef6c" class="">Let&#x27;s code the audio part.</p><h3 id="f904928f-99c5-4a30-9357-04b7132a7f31" class="block-color-pink_background">AudioPlayer for Remote Files</h3><p id="515c5f21-a1f9-4f1a-862d-aa96e84d50a6" class="">Initializing the audio player</p><pre id="17ca1d9e-35ae-434f-867c-a685f8f38c91" class="code"><code>AudioPlayer audioPlayer = AudioPlayer();</code></pre><p id="9669fa5a-e893-40e9-89a3-3205ccff3606" class="">To start playing, call a remote file</p><pre id="fd883092-2d09-418e-897e-2d22e387f113" class="code"><code>await audioPlayer.play(
+        &quot;https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_2MG.mp3&quot;);</code></pre><p id="14c6ea2a-a6a5-4317-ba2f-6455dd4c1d09" class="">Code to pause or resume the audio:</p><pre id="46ade907-cf1a-4cd4-89a3-31743d002e5e" class="code"><code>// pause
+audioPlayer.pause();
+// resume
+await audioPlayer.resume();</code></pre><p id="1fde563f-8342-49ba-acec-9ff9598298e4" class="">In order to listen the player state we need to listen for the onPlayerStateChanged</p><pre id="e857f201-0434-4512-9fab-b706ae036481" class="code"><code>audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+      print(&quot;$state&quot;);
+});</code></pre><p id="5aa23253-8612-4bc8-b01b-4e3b79767ade" class="">In order to listen the player duration updates we need to listen for the onPlayerStateChanged</p><pre id="b1743641-6a6a-46d1-a390-0e04e30f877a" class="code"><code>audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      print(&#x27;Current position: $p&#x27;);
+});</code></pre><p id="3c3c79bf-ada1-47a5-8595-a496164314e3" class="">To get the length of the song use audioPlayer.getDuration()</p><pre id="9437650e-b9d7-434f-a554-a73166060d49" class="code"><code>await audioPlayer.getDuration()</code></pre><p id="bee542a9-66c2-44dd-9a5c-8c4f7f129d13" class="">Final step, but important one, <strong>dispose</strong></p><pre id="9280ddac-b9c6-4aae-becd-51d736bf0b3e" class="code"><code>@override
+void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+}</code></pre><p id="c06e9ada-1b34-48e3-bc4f-bfbc5a80e046" class="">Here is the complete AudioPlayer Code - Playing from Internet</p><pre id="56c32b5d-4859-4d3c-9379-b8d83c781b86" class="code"><code>import &#x27;package:audioplayers/audioplayers.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class AudioNetwork extends StatefulWidget {
+  @override
+  _AudioNetworkState createState() =&gt; _AudioNetworkState();
+}
+
+class _AudioNetworkState extends State&lt;AudioNetwork&gt; {
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  bool isPlaying = false;
+  bool isStarted = false;
+  Duration duration;
+  int time;
+
+  String timeLeft = &quot;&quot;;
+  double progress = 0.0;
+
+  startPlaying() async {
+    if (!isStarted) {
+      await audioPlayer.play(
+          &quot;https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_2MG.mp3&quot;);
+      isStarted = true;
+    } else
+      await audioPlayer.resume();
+    // time  = await audioPlayer.getDuration();
+  }
+
+  getTimeLeft() {
+    if (duration == null) {
+      setState(() {
+        timeLeft = &quot;Time Left 0s&quot;;
+      });
+    } else {
+      setState(() {
+        timeLeft = &quot;Time Left ${duration.inSeconds}s&quot;;
+      });
+    }
+  }
+
+  getProgress() {
+    if (time == null || duration == null) {
+      setState(() {
+        progress = 0.0;
+      });
+    } else {
+      setState(() {
+        progress = time / (duration.inMilliseconds);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      print(&#x27;Current position: $p&#x27;);
+      time = await audioPlayer.getDuration();
+      duration = p;
+      if (duration == null) {
+        timeLeft = &quot;Time Left 0s/0s&quot;;
+      } else {
+        timeLeft = &quot;Time Left ${duration.inSeconds}s/${time / 1000}s&quot;;
+      }
+      if (time == null || duration == null) {
+        progress = 0.0;
+      } else {
+        progress = (duration.inMilliseconds) / time;
+      }
+      print(progress);
+      setState(() {});
+    });
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+      print(&quot;$state&quot;);
+      if (state == AudioPlayerState.PLAYING) {
+        setState(() {
+          isPlaying = true;
+        });
+      } else {
+        if (mounted) {
+          setState(() {
+            isPlaying = false;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Audio Player&quot;),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: &lt;Widget&gt;[
+              LinearProgressIndicator(
+                value: progress,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Text(timeLeft),
+              SizedBox(
+                height: 16.0,
+              ),
+              Center(
+                child: IconButton(
+                  icon: Icon(
+                    isPlaying ? Icons.pause : Icons.play_arrow,
+                  ),
+                  onPressed: () {
+                    isPlaying ? audioPlayer.pause() : startPlaying();
+                    setState(() {});
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="4f93e099-2483-435c-8cfe-49dda161ad2f" class="block-color-teal_background">AudioPlayer for Local Files</h3><p id="804c27d6-431c-4419-96c5-d743a151ab8a" class="">The major change from playing remote files and local files is only about how we start playing, at the time we call <code>play</code> we need to pass another paramer called <code>isLoacal</code> to play a local file</p><p id="146f924e-6ad5-44b2-afce-2bfbd21a19ec" class="">First thing we need to pick a file and send it to the AudioPlayer Page where it gets played</p><pre id="25472329-13eb-414e-aa15-6c921d18d6af" class="code"><code>_pickAudioFileFrom(context) async {
+    File audioFile = await FilePicker.getFile(type: FileType.AUDIO);
+    if (audioFile == null) {
+        print(&quot;Audio Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return AudioLocal(
+            file: audioFile,
+        );
+    }));
+}</code></pre><p id="8de0e9c1-8ee5-42c3-aa4b-c79a10c778de" class="">Playing an audio file</p><pre id="cb057209-961d-4003-b36c-9fbe8799d105" class="code"><code>await audioPlayer.play(audioFile.path, isLocal: true);</code></pre><p id="4f21a93c-9930-4769-9630-3599ba295f83" class="">Final step, but important one, <strong>dispose</strong></p><pre id="3c713fe6-fba7-4130-8dbc-90c39d9d0971" class="code"><code>@override
+void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+}</code></pre><p id="9209d97d-9d14-480f-ba1d-77f7481dd08f" class="">Code for playing audio files locally:</p><pre id="4df3a589-a262-402f-8a97-c49ef70b60d8" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:audioplayers/audioplayers.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class AudioLocal extends StatefulWidget {
+
+  final File file;
+
+  AudioLocal({this.file});
+  
+  @override
+  _AudioLocalState createState() =&gt; _AudioLocalState();
+}
+
+class _AudioLocalState extends State&lt;AudioLocal&gt; {
+  AudioPlayer audioPlayer = AudioPlayer();
+
+  bool isPlaying = false;
+  bool isStarted = false;
+  Duration duration;
+  int time;
+
+  String timeLeft = &quot;&quot;;
+  double progress = 0.0;
+
+  startPlaying() async{
+    if(!isStarted) {
+      await audioPlayer.play( widget.file.path, isLocal: true);
+      isStarted = true;
+    }
+    else await audioPlayer.resume();
+    // time  = await audioPlayer.getDuration();
+  }
+
+  getTimeLeft() {
+    if(duration == null) {
+      setState(() {
+       timeLeft = &quot;Time Left 0s&quot;; 
+      });
+    } else {
+      setState(() {
+       timeLeft = &quot;Time Left ${duration.inSeconds}s&quot;; 
+      });
+    }
+  }
+  getProgress()  {
+    if(time == null || duration == null) {
+      setState(() {
+       progress = 0.0; 
+      });
+    } else {
+      setState(() {
+        progress = time / (duration.inMilliseconds);
+      });
+    }  
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      time = await audioPlayer.getDuration();
+        duration = p;
+      if(duration == null) {
+       timeLeft = &quot;Time Left 0s/0s&quot;; 
+    } else {
+       timeLeft = &quot;Time Left ${duration.inSeconds}s/${time/1000}s&quot;; 
+    }
+    if(time == null || duration == null) {
+       progress = 0.0; 
+    } else {
+        progress = (duration.inMilliseconds)/ time ;
+    }
+    setState(() {
+      
+    });
+    });
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+      print(&quot;$state&quot;);
+      if (state == AudioPlayerState.PLAYING) {
+        setState(() {
+          isPlaying = true;
+        });
+      } else {
+        if(mounted) {
+          setState(() {
+            isPlaying = false;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Audio Player&quot;),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: &lt;Widget&gt;[
+              LinearProgressIndicator(
+                value: progress,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Text(timeLeft),
+              SizedBox(
+                height: 16.0,
+              ),
+              Center(
+                child: IconButton(
+                  icon: Icon(
+                    isPlaying ? Icons.pause : Icons.play_arrow,
+                  ),
+                  onPressed: () {
+                    isPlaying ? audioPlayer.pause() : startPlaying();
+                    setState(() {});
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="5cd1ab4f-ba18-4641-9011-044d78850d39" class="">AudioPlayer for Assets</h3><p id="b6f29ebb-6edb-476c-a4c6-24f9b8d702f7" class="">Playing an Audio File from assets is different from others mode</p><p id="66f7f32a-e2e4-456f-8937-4ffcf839e9b5" class="">Intialize Audio Player</p><pre id="58bc2486-7fa5-4396-9131-f81f70103296" class="code"><code>static AudioPlayer audioPlayer = AudioPlayer();
+  
+AudioCache audioPlayerCache = AudioCache(
+    fixedPlayer: audioPlayer
+);</code></pre><p id="7d8619a3-df44-4d2c-a272-fc1fb7767251" class="">To start playing a remote file call</p><pre id="76e38a34-b59b-467b-baea-70a42e18506f" class="code"><code>await audioPlayerCache.play(&quot;audio.mp3&quot;);</code></pre><p id="1db942ea-68b0-4e2a-b5d2-1323da6538e2" class="">Remaining all are same as the other modes</p><p id="778ee434-dbaa-42da-8b87-3163afc9751f" class="">final step but important one: <code>dispose</code></p><pre id="ae7226c5-1ad7-44aa-bffc-4ac9177986f8" class="code"><code>@override
+void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+}</code></pre><p id="1f187093-954c-44d8-91f6-111088974097" class="">Here is the complete AudioPlayer Code - Playing from Assets</p><pre id="4745aeec-eb15-4258-86f6-d212ccdf9071" class="code"><code>import &#x27;package:audioplayers/audio_cache.dart&#x27;;
+import &#x27;package:audioplayers/audioplayers.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class AudioAssets extends StatefulWidget {
+  @override
+  _AudioAssetsState createState() =&gt; _AudioAssetsState();
+}
+
+class _AudioAssetsState extends State&lt;AudioAssets&gt; {
+  static AudioPlayer audioPlayer = AudioPlayer();
+  
+  AudioCache audioPlayerCache = AudioCache(
+    fixedPlayer: audioPlayer
+  );
+
+  bool isPlaying = false;
+  bool isStarted = false;
+  Duration duration;
+  int time;
+
+  String timeLeft = &quot;&quot;;
+  double progress = 0.0;
+
+  startPlaying() async{
+    if(!isStarted) {
+      await audioPlayerCache.play(
+        &quot;audio.mp3&quot;);
+      isStarted = true;
+    }
+    else await audioPlayer.resume();
+    // time  = await audioPlayer.getDuration();
+  }
+
+  getTimeLeft() {
+    if(duration == null) {
+      setState(() {
+       timeLeft = &quot;Time Left 0s&quot;; 
+      });
+    } else {
+      setState(() {
+       timeLeft = &quot;Time Left ${duration.inSeconds}s&quot;; 
+      });
+    }
+  }
+  getProgress()  {
+    if(time == null || duration == null) {
+      setState(() {
+       progress = 0.0; 
+      });
+    } else {
+      setState(() {
+        progress = time / (duration.inMilliseconds);
+      });
+    }
+    
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    audioPlayer.onAudioPositionChanged.listen((Duration p) async {
+      print(&#x27;Current position: $p&#x27;);
+      time = await audioPlayer.getDuration();
+        duration = p;
+      if(duration == null) {
+       timeLeft = &quot;Time Left 0s/0s&quot;; 
+    } else {
+       timeLeft = &quot;Time Left ${duration.inSeconds}s/${time/1000}s&quot;; 
+    }
+    if(time == null || duration == null) {
+       progress = 0.0; 
+    } else {
+        progress = (duration.inMilliseconds)/ time ;
+    }
+    print(progress);
+    setState(() {
+      
+    });
+    });
+    audioPlayer.onPlayerStateChanged.listen((AudioPlayerState state) {
+      print(&quot;$state&quot;);
+      if (state == AudioPlayerState.PLAYING) {
+        setState(() {
+          isPlaying = true;
+        });
+      } else {
+        if(mounted) {
+          setState(() {
+            isPlaying = false;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() async {
+    await audioPlayer.release();
+    await audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(&quot;Audio Player&quot;),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            children: &lt;Widget&gt;[
+              LinearProgressIndicator(
+                value: progress,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Text(timeLeft),
+              SizedBox(
+                height: 16.0,
+              ),
+              Center(
+                child: IconButton(
+                  icon: Icon(
+                    isPlaying ? Icons.pause : Icons.play_arrow,
+                  ),
+                  onPressed: () {
+                    isPlaying ? audioPlayer.pause() : startPlaying();
+                    setState(() {});
+                  },
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="48c75fcf-e138-4f49-b7b5-bcf7d107df45" class="block-color-orange_background">main.dart</h3><p id="084b8298-0f74-471b-a5a3-cd9fb55f4f77" class="">There is nothing new in main.dart file, so again if you have any doubts in this project, you can always contact me on social media platform(I will give the links after this code).</p><pre id="8bbcce03-5139-449e-855d-c162ad0a4c14" class="code"><code>import &#x27;dart:io&#x27;;
+
+import &#x27;package:bootcamp_media_player/audio/audio_local.dart&#x27;;
+import &#x27;package:bootcamp_media_player/audio/audio_network.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_assets.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_file.dart&#x27;;
+import &#x27;package:bootcamp_media_player/video/video_network.dart&#x27;;
+import &#x27;package:file_picker/file_picker.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+import &#x27;audio/audio_assets.dart&#x27;;
+import &#x27;brand_colors.dart&#x27;;
+import &#x27;widgets/TaxiButton.dart&#x27;;
+
+void main() =&gt; runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: &#x27;Media Player&#x27;,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  _pickVideoFileFrom(context) async {
+    File videoFile = await FilePicker.getFile(type: FileType.VIDEO);
+    if (videoFile == null) {
+      print(&quot;Video Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return VideoFile(
+        file: videoFile,
+      );
+    }));
+  }
+
+  _pickAudioFileFrom(context) async {
+    File audioFile = await FilePicker.getFile(type: FileType.AUDIO);
+    if (audioFile == null) {
+      print(&quot;Audio Picked is null&quot;);
+    }
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return AudioLocal(
+        file: audioFile,
+      );
+    }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: &lt;Widget&gt;[
+                SizedBox(
+                  height: 70,
+                ),
+                Image(
+                  alignment: Alignment.center,
+                  height: 100.0,
+                  width: 100.0,
+                  image: AssetImage(&#x27;assets/video-player.png&#x27;),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  &#x27;Media Player&#x27;,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25, fontFamily: &#x27;Brand-Bold&#x27;),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Internet&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return VideoNetwork();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Assets&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return VideoAssets();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Video From Local&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    _pickVideoFileFrom(context);
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Network&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return AudioNetwork();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Assets&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return AudioAssets();
+                    }));
+                  },
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TaxiButton(
+                  title: &#x27;Play Audio From Local&#x27;,
+                  color: BrandColors.colorPrimaryDark,
+                  onPressed: () {
+                    _pickAudioFileFrom(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ));
+  }
+}</code></pre><p id="683c648d-a637-41cb-9250-d526ed088f15" class="">
+</p><p id="9297b14b-0cd8-49f3-8635-7bb4d97e1802" class="">And that&#x27;s all, small code isn&#x27;t it? Well according to many flutter projects, this is a tiny code, there are much bigger codes, I will show one to you in another blog.</p><p id="3cf64276-e8e8-425e-9537-22a48d756998" class="">
+</p><h3 id="03bc8b5b-5d07-4e86-8fb0-5f71ccb6b165" class="">GitHub</h3><figure id="282c7c90-366e-41a1-8421-1dc75607d16b"><a href="https://github.com/naitik2314/Flutter-Media-Player" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">naitik2314/Flutter-Media-Player</div><div class="bookmark-description">Media Player using Flutter Revised. Contribute to naitik2314/Flutter-Media-Player development by creating an account on GitHub.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/naitik2314/Flutter-Media-Player</div></div><img src="https://opengraph.githubassets.com/fc7ddc2b0763667c99fa05ef1911c2b3f54441254de9af257c0ff4aab3e740ee/naitik2314/Flutter-Media-Player" class="bookmark-image"/></a></figure><p id="f27104fe-2fd1-4887-8023-f478cb6027a9" class="">
+</p><p id="50f1ebca-d8e8-4fd7-8b3b-bdbf2ae0e80f" class="">And if you have any doubts, you may reach out to me with your doubts to any of my social media handles.</p><p id="60ca3185-618a-477c-b947-620e74101961" class="">
+</p><h3 id="2472f78c-80ec-4261-a06d-f7e9273b13e5" class="">Social Media Handles</h3><div id="34eb9ac5-1945-4c22-94b9-8177f3b338f3" class="column-list"><div id="949c65bc-2922-4b4d-bb70-3815c533e842" style="width:33.333333333333336%" class="column"><p id="fce852ec-c361-4faf-9d37-1dad11b3e37e" class="">🤝<a href="https://www.linkedin.com/in/naitik-shah-49baba1a1/">LinkedIn</a></p></div><div id="8069b5a2-5155-4c73-b933-af4463d1fbbf" style="width:33.333333333333336%" class="column"><p id="951191eb-af0e-436f-8413-702ab4a6a476" class="">🐱<a href="https://github.com/naitik2314">GitHub</a></p></div><div id="96ceeefd-23e7-4131-9003-10b56311829f" style="width:33.33333333333333%" class="column"><p id="e0e1d790-63d1-4af4-9d67-ee96fdaea9f8" class="">📱<a href="https://www.instagram.com/naitik2212/">Instagram</a></p></div></div><p id="0b4ebb0d-26d5-4bb9-b1f9-fbe2d99c9b73" class="">
+</p><p id="b527b7ed-84b1-4dc9-829f-516b8307a1e9" class="">Logging off.........Good bye!</p><p id="b3733d74-82b5-4f12-a975-dc1db218a689" class="">
+</p></div></article></body></html>

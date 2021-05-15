@@ -1,0 +1,765 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter App to run Linux Commands</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="a1dabadf-d2dc-401a-b023-c50a9b0256d9" class="page sans"><header><img class="page-cover-image" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/9.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🚊</span></div><h1 class="page-title">Flutter App to run Linux Commands</h1></header><div class="page-body"><p id="a6012f00-b766-4273-9b79-5e21826299f6" class="">Hello viewers,</p><p id="035beffb-1f1e-46c7-bc03-2bafd7fb8fdc" class="">This is my Flutter App (Task 3).</p><p id="5642d576-378c-42f1-bbcd-913258b59a0a" class="">In this task, I am going to create an app that can run Linux commands of your host machine, within itself, isn&#x27;t that cool❓.</p><p id="c1f5748b-4b17-4f23-bad4-e2306fafdb53" class="">Problem statement:</p><ol id="417f88cb-8797-41bb-9fe9-99f16760dfab" class="numbered-list" start="1"><li>Create an app that can run any linux command using API.</li></ol><ol id="9c7e6316-daab-4e16-8da0-985e69badc41" class="numbered-list" start="2"><li>Output will be saved in Firestore.</li></ol><ol id="5224379d-c184-49b2-b0cd-d3e54a820130" class="numbered-list" start="3"><li>From Firestore, get this output and print on screen.</li></ol><p id="f7c3ea52-a519-41d5-a4d6-74a73cf91091" class="">So, let&#x27;s get right into the coding part, but first let me show you the final app.</p><h2 id="646e5352-5d99-4d6a-8abc-9b66ada89177" class="">App:</h2><figure id="f77aaf99-5633-4c12-a532-c7c723a46d88" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/for-dribbble.png"><img style="width:800px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/for-dribbble.png"/></a></figure><figure id="c4aa8fe8-e375-47e0-b8ee-52b01cb44c9f" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/for-dribbble%201.png"><img style="width:800px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/for-dribbble%201.png"/></a></figure><p id="ce9bcaea-e848-4436-8182-1d0aa981b731" class="">
+</p><h2 id="a3f02f25-ed31-4283-be1e-df8d3fd4eab5" class="">Firestore Initializing</h2><h3 id="9daf46a0-8579-4400-924e-e9107f6c2520" class="block-color-blue_background">New Application</h3><p id="4ad6c321-7ccc-4587-9e1d-4bb7592821c9" class="">Head over to this website:</p><figure id="7c62a5b2-f5e5-4d8b-b5ff-5bddc4935227"><a href="https://console.firebase.google.com/u/0/?pli=1" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Sign in - Google Accounts</div></div><div class="bookmark-href"><img src="https://accounts.google.com/favicon.ico" class="icon bookmark-icon"/>https://console.firebase.google.com/u/0/?pli=1</div></div><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="bookmark-image"/></a></figure><p id="d7b37b7d-8ced-4563-b8c3-94c8b88d79f8" class="">Now, you will be greeted with this page: </p><figure id="03a89646-6ad5-4301-a1d9-6809894f76a0" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled.png"/></a></figure><p id="da69ab9e-9073-46a1-8803-49cffe52429e" class="">If you are a first time user of firebase, then you will have to sign in, and there will be no projects. So, now click Add project.</p><p id="e713f138-5d4b-4302-a377-32a78d82a6d8" class="">Now you will be greeted with a page like this:</p><figure id="231fd9a5-c9ba-4ddf-8c9b-ed8d06cbd153" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%201.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%201.png"/></a></figure><p id="52fc9d98-98ec-41c3-9347-fef387a21c5d" class="">Add the name of your project, I would suggest keep it similar to the app, like LinuxTerminal in this case. After adding the project name, hit continue.</p><p id="d6a3c100-59b4-4628-9abd-6bdaa9fe36a9" class="">Next, you will see this page: </p><figure id="345e17ef-3dcc-4e41-a170-69205ae58439" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%202.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%202.png"/></a></figure><p id="4b11d944-fb44-41b6-a83e-0a8abf22500b" class="">Leave it is as it is, and then hit continue.</p><p id="2616f0bb-2004-45d9-b4c7-b641dfd51d26" class="">In the next page, select the drop down menu and select Default Account for Firebase, and then hit continue.</p><figure id="8f868223-8e8e-4e15-bb4a-a62eacaf2d93" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%203.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%203.png"/></a></figure><p id="921a3630-3b7e-4106-bf1c-56eb0ac9b7b1" class="">Those are steps for adding a new project for Firebase. </p><figure id="9ecfd734-eb6b-4234-80a1-9d508125e8c3" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%204.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%204.png"/></a></figure><p id="789f0833-4f6d-4bab-a052-1c2068787765" class="">Now, the home page of a firebase project looks like this, </p><figure id="b967a019-dd9a-4b89-bfcb-ecb45eaff111" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%205.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%205.png"/></a></figure><p id="319cbcdf-0c33-4633-80dc-71a9b2aa191d" class="">Make sure you have spark plan besides your ChatApp, which means you won&#x27;t be charged anything. Now in the left you can see a list of services that firebase provides, in this app you will be using Authentication, Firestore, and storage. </p><p id="b2fb3937-2055-4ad1-a5fb-19364ec31bec" class="">Let&#x27;s set up Android first, iOS is similar to android setup, on the project page, click on the android logo, below the text &quot;Get started by adding Firebase to your app&quot;.</p><p id="b89b7d88-0181-4efc-ac22-d5375c909458" class="">After that, you will be greeted with this page: </p><figure id="60446645-9ef9-4607-b604-7543852bee99" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%206.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%206.png"/></a></figure><p id="52997c94-9176-483b-bf4f-980cf2ee70dd" class="">In the android package name, hover over the question mark icon to see where to find it. </p><figure id="a776e39b-e687-41e3-b30f-5e9c3cc78b1a" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%207.png"><img style="width:1920px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%207.png"/></a></figure><p id="7df1b1df-6c59-4980-b478-5f97d13e0fa0" class="">I will show you where you can find it</p><figure id="f7fbac53-b868-4dc0-a47c-9fda0963f271" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%208.png"><img style="width:298px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%208.png"/></a></figure><figure id="b8b48b7c-6bd0-4c1d-8729-053fb7514c94" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%209.png"><img style="width:986px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%209.png"/></a></figure><p id="72cded27-124c-4c40-8de2-f890bbf9a27d" class="">No need to add App Nickname, and Debug signing certificate SHA-1, now follow the other steps, and your Android app will be set.</p><p id="709074f9-dcd9-4b0d-944f-5607b09fe165" class="">After you have done, close the tab, and navigate to:</p><p id="c450978a-f6b6-4cea-856f-7c554d4d8a37" class=""><a href="https://console.firebase.google.com/">https://console.firebase.google.com/</a></p><p id="e08ffe5b-6464-4039-b89d-44358f58ec1f" class="">Under your project name, you will be able to see Android Icon</p><p id="a6f5fafb-3ea8-4dd5-9a8d-7b6fd857f61d" class="">Then, initialize Firestore, again from the left panel, and follow the steps, don&#x27;t worry, they are easy, the first step will be: </p><figure id="0dbcbff8-01a7-4ba1-bc6d-a2f542287972" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2010.png"><img style="width:1664px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2010.png"/></a></figure><p id="56b9f2d0-fb64-48be-a109-adf0f57e604a" class="">Click Create database, and then select Start in <strong>production mode, </strong>and then click next. </p><figure id="f09e8463-de80-457c-8b50-d5c0ae2c194d" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2011.png"><img style="width:819px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2011.png"/></a></figure><p id="bc8d3fe1-ee77-4a3b-b798-e51bd86141f8" class="">Now it is time to select the server, so now select one wisely,  because this will decide how quick users receive message, because it will reduce the latency, in my case it will be, asia-east2, and remember it can&#x27;t be changed afterwards, so choose wisely, and click enable. </p><p id="6c64565d-024f-4024-8a6b-c6f43f0b4c61" class="">Firebase setup is done! Now follow the next steps.</p><h2 id="acd9f129-74b1-4bcc-be61-e9619ee1f9b6" class="">Let&#x27;s start coding:</h2><p id="53abe24b-bdf8-44fb-8f18-1f620d035f5a" class="">As this app has only one page, the main page where we will be typing the commands, so there will be only dart file. But first let&#x27;s peek at the pubspec.yaml file.</p><h3 id="9e060ac6-dfe5-4db1-bb0a-19ddf5e7bdd2" class="block-color-teal_background">pubspec.yaml</h3><p id="2f59cbb9-5e90-41f3-acdc-4e4d066795c1" class="">As we are not going to use any assets, we only need to add a few dependencies.</p><pre id="4bbae6d6-aee9-403e-b559-22015207c9fd" class="code"><code>environment:
+  sdk: &quot;&gt;=2.7.0 &lt;3.0.0&quot;
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.3
+  google_fonts: ^1.1.0
+  firebase_core: ^0.5.0
+  cloud_firestore: ^0.14.0+2
+  flutter_statusbar: ^0.0.1
+  http: ^0.12.2</code></pre><p id="ef427f37-9e55-4a0a-ac57-ab2072d995a3" class="">So your pubspec.yaml file should look like this:</p><figure id="96a706d5-1e33-4b3d-bfec-7908357f5646" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2012.png"><img style="width:370px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Untitled%2012.png"/></a></figure><p id="71e2d8b1-8e0c-4d6a-a8e3-c9a4a9849e0a" class="">
+</p><h3 id="51a49a46-0860-45ee-8a91-8fcc7f88a5e1" class="block-color-red_background">main.dart</h3><pre id="bc99006b-1b48-49ee-9fd3-42438e4f8c48" class="code"><code>import &#x27;package:cloud_firestore/cloud_firestore.dart&#x27;;
+import &#x27;package:firebase_core/firebase_core.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:google_fonts/google_fonts.dart&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+
+void main() {
+  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+}
+
+class MyApp extends StatefulWidget {
+  MyApp({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() =&gt; _MyAppState();
+}
+
+var fs = FirebaseFirestore.instance;
+var cmd;
+
+class _MyAppState extends State&lt;MyApp&gt; {
+  var data;
+  web(i) async {
+    var url = &quot;http://192.168.29.26/cgi-bin/web.py?q=$i&quot;;
+    var r = await http.get(url);
+
+    setState(() {
+      data = r.body;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.dark(),
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            
+            
+            backgroundColor: Colors.black,
+            elevation: 0,
+            title: Center(
+              child: Text(
+                &quot;My Terminal&quot;,
+                style: GoogleFonts.abrilFatface(fontSize: 30 , color: Colors.green[400]),
+              ),
+            ),
+          ),
+          body: Container(
+            margin: EdgeInsets.all(13),
+       
+            padding: EdgeInsets.all(7),
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              border: Border.all(
+                color: Colors.green,
+                width: 5.0,
+              ),
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [new BoxShadow(
+            color: Colors.black,
+            blurRadius: 20.0,
+          ),]
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text(&quot;[root@localhost]:&quot;,
+                        style: GoogleFonts.montserrat(
+                            fontSize: 20, color: Colors.white)),
+                    Container(
+                      width: 150,
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      child: TextFormField(
+                        onChanged: (value) {
+                          cmd = value;
+                        },
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.send,
+                            size: 20,
+                            color: Colors.green[300],
+                          ),
+                          onPressed: () async {
+                            web(cmd);
+                            await FirebaseFirestore.instance
+                                .collection(&quot;Terminal_Output&quot;)
+                                .add({
+                              &quot;output&quot;: data,
+                            });
+                          },
+                        )),
+                      ),
+                    ),
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.all(10),
+                  child: Text(
+                    data ?? &quot; &quot;,
+                    style: GoogleFonts.lato(color: Colors.green[300], fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><h3 id="4e1b39a9-0f3d-42e8-9aef-fc4fbfddfa01" class="block-color-orange_background">Pack up</h3><p id="997f9204-c1e6-43e6-80da-ac352386b5d4" class="">Alright, so that&#x27;s code, our output is stored to Firestore, I am attaching the screenshots for your reference.</p><figure id="81e10394-326a-4aa1-a777-309bffad8fd5" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Firebase_1.png"><img style="width:1567px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Firebase_1.png"/></a></figure><figure id="07904d6d-7b64-4058-a0b1-794eb07dc7dd" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Firebase_2.png"><img style="width:1563px" src="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9/Firebase_2.png"/></a></figure><p id="74e472e3-c22d-4ccd-8e61-5037ab7038b8" class="">
+</p><h3 id="4c106a77-b1ef-4f18-b34d-93ee64355b31" class="block-color-purple_background">GitHub Repository</h3><figure id="2bb275cb-b24f-4775-a5cb-5efb15bf7a46"><a href="https://github.com/naitik2314/LinuxTerminalFlutter" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">naitik2314/LinuxTerminalFlutter</div><div class="bookmark-description">A new Flutter project. This project is a starting point for a Flutter application. A few resources to get you started if this is your first Flutter project: For help getting started with Flutter, view our online documentation, which offers tutorials, samples, guidance on mobile development, and a full API reference.</div></div><div class="bookmark-href"><img src="https://github.com/favicon.ico" class="icon bookmark-icon"/>https://github.com/naitik2314/LinuxTerminalFlutter</div></div><img src="https://opengraph.githubassets.com/aba0110af526f4813b0811fbcb6b4f9a21ab80226a809f4ee4a388c6fe2d38ca/naitik2314/LinuxTerminalFlutter" class="bookmark-image"/></a></figure><p id="fc2620e3-97ea-4c93-98e3-980de3d01785" class="">
+</p><h3 id="5df997ec-38ed-4078-8b41-0efa7001f344" class="block-color-pink_background">Social Media/Doubts</h3><p id="ee265d26-d1e0-4e0a-9b67-638e5958f51c" class="">If you have any doubt, regarding this project, feel free to message me on social media, links I have given below.</p><div id="8e4bb3c9-3b9f-42ef-b5a8-59043315b53f" class="column-list"><div id="0a8803fc-cecd-420f-9660-a9ea3bce950f" style="width:33.333333333333336%" class="column"><p id="10059b21-5944-41b8-927c-e841c3bf749a" class="">🤝<a href="https://www.linkedin.com/in/naitik-shah-49baba1a1/">LinkedIn</a></p></div><div id="fbb13313-df39-4583-9d5d-e4ecd5d31ad7" style="width:33.333333333333336%" class="column"><p id="81909a1c-aaf6-49b0-a932-afd749972551" class="">🐱<a href="https://github.com/naitik2314">GitHub</a></p></div><div id="ff0ead8a-bac8-44b0-9f23-a81627d186b6" style="width:33.33333333333333%" class="column"><p id="0fe2278a-717e-4d94-a337-da2ab239d34f" class="">📱<a href="https://www.instagram.com/naitik2212/">Instagram</a></p></div></div><p id="8f438407-83a8-4794-ba54-7c2e9778648c" class="">
+</p><p id="f27d7b04-ba4a-46e7-8459-94dfe2b555a5" class="">Logging off.......Good bye!</p></div></article></body></html>

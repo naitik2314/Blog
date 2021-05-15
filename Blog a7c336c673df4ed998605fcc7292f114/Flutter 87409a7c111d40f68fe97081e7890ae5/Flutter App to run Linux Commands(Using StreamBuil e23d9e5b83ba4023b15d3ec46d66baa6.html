@@ -1,0 +1,1330 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Flutter App to run Linux Commands(Using StreamBuilder)</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="e23d9e5b-83ba-4023-b15d-3ec46d66baa6" class="page sans"><header><img class="page-cover-image" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/57.png" style="object-position:center 50%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">🌪️</span></div><h1 class="page-title">Flutter App to run Linux Commands(Using StreamBuilder)</h1></header><div class="page-body"><p id="9ef95508-d073-4e94-bba5-dd8302304f35" class="">Hello viewers,</p><p id="efcc4d04-5e1e-4648-8dd1-a9769ed33009" class="">This is my Flutter App (Task 4).</p><p id="4ac221ab-6bec-4b2a-9c82-bee4fab86fee" class="">In this task, I am going to create an app that can run Linux commands of your host machine, within itself, and we will upload all of the commands on FireStore using Stream Builder, isn&#x27;t that cool❓.</p><p id="74d2ee15-3d4f-4796-af76-45bac21de9ea" class="">Problem statement:</p><ol id="d5a4661f-4a71-4cea-b4a8-66dbf64f19c6" class="numbered-list" start="1"><li>Create an app that can run any linux command using API.</li></ol><ol id="4bd5e00b-08b5-4c9d-b414-83e9e3e21bc7" class="numbered-list" start="2"><li>Output will be saved in Firestore.</li></ol><ol id="4e71d6b7-2ce3-4f3c-a687-8d840ffff1f9" class="numbered-list" start="3"><li>From Firestore, get this output and print on screen.</li></ol><ol id="a68f807c-0fce-406c-81aa-1ab69605454c" class="numbered-list" start="4"><li>Use Stream Builder to save data.</li></ol><p id="2b126d87-986d-4daa-b981-85e3cbd99a2c" class="">This app basically connects with our own API created in python language, to run almost every command in the Linux server and save the output in the cloud.</p><p id="cab9ad84-f023-43f5-a5fa-d523f1a04521" class="">This app contains packages like http, cloud_firebase core (to connect to the firebase), cloud firestore(to store the output of the linux command), firebase auth for authentication of the user(provided by the google as a service in firebase), also for creativity included the splash screen in the app.</p><p id="5cb295f5-284d-47dd-80e3-fba9b366f849" class="">Also created a registration page for the user to create an id and then login. The difference between the previous app (Flutter Task 3: Linux Terminal App (with Firestore)) and this app is, this app retrieves the output as soon as a new data is available in the firestore database.</p><p id="2ae0f052-d946-486b-b5ab-c605dd1c2766" class="">
+</p><h2 id="b3423b29-097e-4071-b538-b31b4f82a22f" class="block-color-pink">The Software, tools and concept we will be using to create this App:</h2><ol id="ba95c1b5-1428-455f-9a44-2188e3e3ff72" class="numbered-list" start="1"><li>Linux OS</li></ol><ol id="06ea9560-df69-4e6d-ab6a-9fd3da4fcb42" class="numbered-list" start="2"><li>Flutter installed on Linux/Mac/Windows Machine</li></ol><ol id="e942a918-a806-454d-a09a-59f34dccc98f" class="numbered-list" start="3"><li>Preferred IDE/Text Editor</li></ol><ol id="21349073-bd36-4fc5-8f3b-86ed07170708" class="numbered-list" start="4"><li>Concept of Steam Builder</li></ol><ol id="84c8dff5-cb5c-496f-bf67-7c55b503f16f" class="numbered-list" start="5"><li>Cloud Firestore database to store the response</li></ol><h2 id="d1308e94-fb60-4837-9659-e3ebc3332f8e" class="block-color-brown">Steps for creating our App</h2><ol id="ec84bb98-8532-4f9a-a855-4b9b52d25cba" class="numbered-list" start="1"><li>Create an app that can run any Linux command using API</li></ol><ol id="3974c6d2-feb7-42ad-9526-b8e3f7136ffa" class="numbered-list" start="2"><li>Output will be saved in Firestore.</li></ol><ol id="b64a187f-4208-4b44-a235-d26ff5270cab" class="numbered-list" start="3"><li>From Firestore, get this output and print on screen.</li></ol><ol id="017a1939-3a12-4470-be85-37de49d7bc7b" class="numbered-list" start="4"><li>Use Stream Builder to save data.</li></ol><h2 id="99322ad1-bcf2-4e7f-8d49-9df4bafaad92" class="block-color-purple">Setting up the environment for using this app(Python and CGI)</h2><h3 id="321eee30-2451-4fd4-a941-2d4a4515db23" class="block-color-teal_background">What is Python CGI?</h3><p id="1243f676-4acc-4a64-85ee-33b18bbb4064" class="">The common Gateway Interface, or a.k.a CGI, is a set of standards that define how information is exchanged between the web server and a custom script. The CGI specs are currently maintained by the NCSA.</p><ul id="0e34e1c2-a18f-41e8-ae05-bfe6546b8306" class="bulleted-list"><li>The Common Gateway Interface, or CGI, is a standard for external gateway programs to interface with information servers such as HTTP servers.</li></ul><ul id="ee336769-0e90-434f-9308-1aacd3e3c5db" class="bulleted-list"><li>The current version is CGI/1.1 and CGI/1.2 is under development.</li></ul><p id="47e517c2-e9a3-4246-8a1e-ea8535e7d3bf" class=""><strong>Let&#x27;s see the procedure followed when we click a hyperlink to browse a particular web page or URL.</strong></p><ol id="841cc191-3187-47e9-97f4-5aee9986d31d" class="numbered-list" start="1"><li>Your browser contacts the HTTP web server and demands for the URL, i.e., filename.</li></ol><ol id="1e9b79d5-0581-439d-9969-0bbd96d2ea03" class="numbered-list" start="2"><li>Web Server parses the URL and looks for the filename. If it finds that file then sends it back to the browser, otherwise sends an error message indicating that you requested the wrong file.</li></ol><ol id="2edb6b79-be1a-43f5-860c-cdd9dc43b172" class="numbered-list" start="3"><li>Web browser takes the response from a web server and displays either the received file or error message.</li></ol><p id="23505f82-34a6-4336-a36c-23ec1be10cec" class="">However, it is possible to set up the HTTP server so that whenever a file in a certain directory is requested that file is not sent back; instead it is executed as a program, and whatever that program outputs are sent back for your browser to display.</p><p id="fd0b6941-9e71-40f1-8cc4-6a1f225a6cf0" class=""><strong>The above function is called the Common Gateway Interface or CGI and the programs are called CGI Scripts. The CGI programs can be a python Script, PERL Script, SHELL Script, C or C++ program etc. </strong></p><p id="7334f0e7-1df0-4bed-b7af-72297b301a48" class="">Now we know the basics of CGI, let&#x27;s look at what is a Terminal/CMD</p><p id="97c575b8-ddbf-4186-97d5-d5d48cc7a030" class="">
+</p><h3 id="301e1792-9137-4800-b8c7-2463ee477d80" class="block-color-blue_background">What is Terminal/CMD?</h3><p id="f3032ed9-be8b-4704-9ecb-11a934fdd0f2" class="">Windows terminal, now you might have not downloaded windows terminal from windows store, but I highly recommend, because it allows multiple tabs, you can run Azure, CMD, and PowerShell.</p><figure id="c401245b-5a5b-4be7-bfc4-a29b0e75852b" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled.png"><img style="width:1726px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled.png"/></a></figure><p id="6a48929a-71dd-4420-836c-6dc4f1575e21" class="">By default, windows provides CMD.</p><p id="1d4abb22-aa2f-4e42-98fd-103358bb5265" class="">Now let&#x27;s have a look at Linux terminal.</p><figure id="bac6bc79-0665-4ab3-b3ad-c3b52149b088" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%201.png"><img style="width:751px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%201.png"/></a></figure><p id="75886cc1-24b0-40bf-90d4-ae130a16318e" class="">This is the terminal of Kali Linux.</p><p id="b7a0d909-7725-44c0-8778-1134f4cfa36f" class="">So, basically, a shell is a program that receives commands from the user and gives it to the OS to process, and it shows the output. Linux’s shell is its main part. Its distros come in GUI (graphical user interface), but basically, Linux has a CLI (command-line interface). In this tutorial, we are going to cover the basic commands that we use in the shell of Linux.</p><p id="2ac47f1a-03d4-42e5-be26-c2f12e56602f" class="">
+</p><h3 id="dec31a97-8ba9-4450-8080-b153418b15ab" class="block-color-pink_background">Steps to setup your environment.</h3><p id="2eb85d88-bef7-4552-ba5c-4aace7aeb549" class="">First of all, we need to set up Python and Python CGI programming so that we can connect our Flutter APP to Linux as a Backend.</p><p id="6bad246a-3866-4672-8c2f-c561b3b4581c" class=""><strong>For that, you need to install Python and Apache2 in your Linux.</strong></p><p id="94f4df90-a711-4f15-97da-e01da9ebdbde" class=""><strong>I am using Kali Linux because that is my Linux distro of choice, but you can use any distro you like.</strong></p><h3 id="1e7b87b3-182f-43c1-86f2-ec0f6d67107b" class="">Step 1:</h3><p id="473db20e-4319-4cf5-98b8-a71f1d4e1bba" class="">Run the following commands:</p><pre id="6d496a4c-c8c1-415a-8250-4d477889f018" class="code"><code>sudo apt-get install python3</code></pre><p id="3460af9b-e23d-4dea-a440-7d5858444b38" class="">The output should be:</p><figure id="e0a9b758-ae3d-4872-8971-fc4ac7316b0c" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%202.png"><img style="width:1233px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%202.png"/></a></figure><p id="20760647-b70d-4fa5-b39f-0b30fb18b17c" class="">Now run:</p><pre id="b654ebf6-23cc-45c5-bdb4-63a5f152e51b" class="code"><code>python3</code></pre><p id="3af24665-edac-40aa-b272-e0b8d61568ca" class="">Just to check whether Python was installed successfully.</p><p id="5a0e2ea3-3eb4-43fa-816d-1b9300a77a1b" class="">Now run:</p><pre id="e9e72c7c-660a-4e81-b380-2f160b29dcde" class="code"><code>sudo apt-get install apache2</code></pre><figure id="c05aa08e-8d2c-4d0a-a074-6744cec6b999" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%203.png"><img style="width:1217px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%203.png"/></a></figure><h3 id="d588d405-46de-4fae-b80c-522e81d4348c" class="">Step 2:</h3><p id="f5bc62c3-6113-4c15-b629-c8d76f96a16c" class=""><strong>Now you need to enable CGI-bin functionality in apache2 configuration so that it can run python-CGI scripts.</strong></p><p id="d92452f9-a032-44fd-b222-0a593d2b7588" class="">Run the following command:</p><pre id="4e68da37-74cd-4003-a780-8bee9a53331f" class="code"><code>sudo a2enmod cgi</code></pre><p id="e2d80ca8-24ec-4da6-8402-13f4f39fcafb" class="">And then:</p><pre id="7b2a8540-a3df-4d7b-81f8-0fb668694e12" class="code"><code>systemctl restart apache2</code></pre><figure id="d7efc04b-5dea-4243-8884-02752bf25e49" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%204.png"><img style="width:478px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%204.png"/></a></figure><p id="fc888279-3c9f-4012-a885-88c479cbc007" class="">This command will enable CGI for under the path /usr/lib/cgi-bin</p><p id="4943cbb9-fada-4bd8-b057-38289fe371e6" class=""><strong>You can put a python script in that cgi-bin folder which is given below:</strong></p><pre id="1bc874ea-5151-4398-a68d-beaa11f6bbb1" class="code"><code>#! /usr/bin/python3
+
+import cgi
+import subprocess
+import json
+
+print(&quot;content-type: text/html&quot;)
+print()
+
+user_input = cgi.FieldStorage()
+command = user_input.getvalue(&quot;x&quot;)
+output = subprocess.getstatusoutput(&quot;{0}&quot;.format(command))
+StatusCode = output[0]
+result = output[1]
+db = { &quot;Result&quot;: result, &quot;statusCode&quot;: StatusCode }
+finalResult = json.dumps(db)
+print(finalResult)</code></pre><h3 id="97781886-355e-474f-9bd8-1b5dc555f2a0" class="">Step 3:</h3><p id="f4741f50-e227-45df-b13d-09c4f5439ded" class="">Now you need to give sudo/admin permission to the apache2 user account that is www-data.so that it can run commands on behalf of our python CGI and flutter app.</p><p id="1862cc17-838c-4223-b92f-f53545d266d8" class="">you can do that in the sudoers file in Linux</p><pre id="987827b3-e6e5-4c14-ba74-902c928a488a" class="code"><code>sudo visudo /etc/sudoers</code></pre><p id="753dbea2-0d03-4c68-a118-8fe42b7767cd" class="">add this line:</p><p id="8114dde2-b46b-41d4-9ccc-a37908b176e9" class="">www-data ALL=(ALL:ALL) NOPASSWD: ALL</p><figure id="fd60754a-86fa-4496-bff0-ec1ec0432aba" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%205.png"><img style="width:911px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%205.png"/></a></figure><h3 id="5519bf6b-e703-47f3-b267-843eae091b52" class="">Step 4:</h3><p id="7acc3a5a-a3d0-41b6-a82e-57bb2076945f" class="">AS our python and Linux configurations are done.<strong>Now we need to set up Firebase and Cloud Firestore for our Flutter APP.</strong></p><p id="ae6a4a80-d1db-4e29-97d8-81577dac78c1" class=""><strong>Firebase Console Setup:</strong></p><p id="d036a79e-8054-458b-9767-de88303c16f6" class="">For this, check out my previous <a href="Flutter%20App%20to%20run%20Linux%20Commands%20a1dabadfd2dc401ab023c50a9b0256d9.html">Blog</a>. </p><p id="a271242d-3f94-49c0-8421-79297c62fa88" class="">
+</p><h2 id="62b0b492-29d3-498f-a01e-208666da2183" class="block-color-teal">Code</h2><h3 id="a625a00c-5d82-4b10-a603-5f2cc19a4ffd" class="block-color-teal_background">pubspec.yaml</h3><p id="b591f1c8-2f14-45c6-a5d5-e0c7295aa33e" class="">Let&#x27;s look at the dependencies, now add the latest version of the package, and head over to the <a href="http://pub.dev">pub.dev</a> website for the same.</p><pre id="9b25061a-a1b4-4928-8712-2916698f8104" class="code"><code>cupertino_icons: ^1.0.0
+  cloud_firestore:
+  firebase_core: 
+  firebase_database:
+  firebase_auth:
+  splashscreen : 1.2.0
+  http: 
+  flutter_signin_button: ^1.0.0
+  modal_progress_hud:</code></pre><figure id="d68f2234-3825-4e13-806b-e5432d83b3bc" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%206.png"><img style="width:645px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/Untitled%206.png"/></a></figure><p id="6baf5a38-53a6-4923-a65e-5b704721aee3" class="">
+</p><h3 id="b1af9f07-bd9a-4f98-803c-c8596d420004" class="block-color-purple_background">main.dart</h3><pre id="17959d29-21c5-4d1a-a3f0-823accfbe855" class="code"><code>import &#x27;RegistrationPage.dart&#x27;;
+import &#x27;LogIn.dart&#x27;;
+import &#x27;first-screen.dart&#x27;;
+import &#x27;package:firebase_core/firebase_core.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;HomePage.dart&#x27;;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      routes: {
+        &#x27;SignUp&#x27;: (context) =&gt; SignUpUsingEmail(),
+        &#x27;SignIn&#x27;: (context) =&gt; LogIn(),
+        &#x27;Home&#x27;: (context) =&gt; HomePage(),
+      },
+      debugShowCheckedModeBanner: false,
+      title: &#x27;Linux Terminal App&#x27;,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: IntroScreen(),
+    );
+  }
+}</code></pre><p id="d79f59e1-aeed-4823-a376-c3beb305bc65" class="">
+</p><h3 id="4cb66e12-7631-4c7c-8308-7166bc34a955" class="block-color-yellow_background">RegistrationPage.dart</h3><pre id="4a6e0e07-cb21-4442-a083-3e6c72910344" class="code"><code>import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:modal_progress_hud/modal_progress_hud.dart&#x27;;
+
+class SignUpUsingEmail extends StatefulWidget {
+  @override
+  _SignUpUsingEmailState createState() =&gt; _SignUpUsingEmailState();
+}
+
+class _SignUpUsingEmailState extends State&lt;SignUpUsingEmail&gt; {
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+
+  registerUser({String email, String password}) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      Navigator.pushNamedAndRemoveUntil(context, &#x27;Home&#x27;, (route) =&gt; false);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == &#x27;weak-password&#x27;) {
+        print(&#x27;The password provided is too weak.&#x27;);
+        _showDialog(&#x27;Weak Password&#x27;);
+        setState(() {
+          isLoading = false;
+        });
+      } else if (e.code == &#x27;email-already-in-use&#x27;) {
+        print(&#x27;The account already exists for that email.&#x27;);
+        _showDialog(&#x27;Account already exist&#x27;);
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _showDialog(String errorInfo) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(&quot;Error&quot;),
+            content: Text(errorInfo),
+            actions: &lt;Widget&gt;[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(&quot;Close&quot;))
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(
+            title: Text(&quot;Registration Page&quot;), backgroundColor: Colors.black),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(children: &lt;Widget&gt;[
+              SizedBox(
+                height: 120.0,
+              ),
+              Text(
+                &#x27;Registration Page&#x27;,
+                style: TextStyle(fontSize: 44.0, fontWeight: FontWeight.bold),
+              ),
+              Column(
+                children: &lt;Widget&gt;[
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                          labelText: &#x27;EMAIL&#x27;,
+                          labelStyle: TextStyle(
+                              fontFamily: &#x27;Montserrat&#x27;,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey),
+                          // hintText: &#x27;EMAIL&#x27;,
+                          // hintStyle: ,
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.green))),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return &#x27;Enter Email id&#x27;;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            labelText: &#x27;PASSWORD &#x27;,
+                            labelStyle: TextStyle(
+                                fontFamily: &#x27;Montserrat&#x27;,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey),
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.green))),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return &#x27;Enter Password&#x27;;
+                          }
+                          return null;
+                        }),
+                  ),
+                  SizedBox(height: 50.0),
+                  Container(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      height: 40.0,
+                      child: Material(
+                        borderRadius: BorderRadius.circular(20.0),
+                        shadowColor: Colors.greenAccent,
+                        color: Colors.green,
+                        elevation: 7.0,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (_formKey.currentState.validate()) {
+                              registerUser(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                            }
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Future.delayed(const Duration(seconds: 5), () {
+                              if (mounted) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            });
+                          },
+                          child: Center(
+                            child: Text(
+                              &#x27;SIGNUP&#x27;,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: &#x27;Montserrat&#x27;),
+                            ),
+                          ),
+                        ),
+                      )),
+                  SizedBox(height: 20.0),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    height: 40.0,
+                    color: Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.black,
+                              style: BorderStyle.solid,
+                              width: 1.0),
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Center(
+                          child: Text(&#x27;Go Back&#x27;,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: &#x27;Montserrat&#x27;)),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+}</code></pre><p id="dd2b6b8d-a219-4d3d-a777-827b2d3249b3" class="">
+</p><h3 id="2003eea5-8f3e-4002-abea-f1d769f9a980" class="block-color-teal_background">LogIn.dart</h3><pre id="3319c73d-a012-4f92-be04-9b94b57a55eb" class="code"><code>import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:modal_progress_hud/modal_progress_hud.dart&#x27;;
+
+class LogIn extends StatefulWidget {
+  @override
+  _LogInState createState() =&gt; _LogInState();
+}
+
+class _LogInState extends State&lt;LogIn&gt; {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  bool isLoading = false;
+  bool isUserCorrect = false;
+
+  loginUser({String email, String password}) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      Navigator.pushNamedAndRemoveUntil(context, &#x27;Home&#x27;, (route) =&gt; false);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == &#x27;user-not-found&#x27;) {
+        print(&#x27;No user found for that email.&#x27;);
+        _showDialog(&#x27;No User found&#x27;);
+        setState(() {
+          isLoading = false;
+        });
+      } else if (e.code == &#x27;wrong-password&#x27;) {
+        print(&#x27;Wrong password provided for that user.&#x27;);
+        _showDialog(&#x27;Wrong password provided&#x27;);
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  void _showDialog(String errorInfo) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(&quot;Error&quot;),
+            content: Text(errorInfo),
+            actions: &lt;Widget&gt;[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(&quot;Close&quot;))
+            ],
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ModalProgressHUD(
+      inAsyncCall: isLoading,
+      progressIndicator: CircularProgressIndicator(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(&quot;Log In Page&quot;),
+          backgroundColor: Colors.black,
+        ),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(children: &lt;Widget&gt;[
+              SizedBox(height: 80.0),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(&quot;Log In&quot;,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: TextFormField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      labelText: &#x27;EMAIL&#x27;,
+                      labelStyle: TextStyle(
+                          fontFamily: &#x27;Montserrat&#x27;,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green))),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return &#x27;Enter Email id&#x27;;
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: TextFormField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        labelText: &#x27;PASSWORD &#x27;,
+                        filled: true,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        labelStyle: TextStyle(
+                            fontFamily: &#x27;Montserrat&#x27;,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green))),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return &#x27;Enter Password&#x27;;
+                      }
+                      return null;
+                    }),
+              ),
+              SizedBox(height: 50.0),
+              Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  height: 40.0,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20.0),
+                    shadowColor: Colors.greenAccent,
+                    color: Colors.green,
+                    elevation: 4.0,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (_formKey.currentState.validate()) {
+                          loginUser(
+                              email: emailController.text,
+                              password: passwordController.text);
+                        }
+                        setState(() {
+                          isLoading = true;
+                        });
+                        Future.delayed(const Duration(seconds: 5), () {
+                          if (mounted) {
+                            setState(() {
+                              isLoading = false;
+                            });
+                          }
+                        });
+                      },
+                      child: Center(
+                        child: Text(
+                          &#x27;LoginIn&#x27;,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: &#x27;Montserrat&#x27;),
+                        ),
+                      ),
+                    ),
+                  )),
+              SizedBox(height: 15.0),
+              Container(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  height: 40.0,
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20.0),
+                    shadowColor: Colors.greenAccent,
+                    color: Colors.green,
+                    elevation: 4.0,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, &#x27;SignUp&#x27;);
+                      },
+                      child: Center(
+                        child: Text(
+                          &#x27;REGISTER USING EMAIL&#x27;,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: &#x27;Montserrat&#x27;),
+                        ),
+                      ),
+                    ),
+                  )),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+}</code></pre><p id="034eb9d7-ab68-4b41-addb-7153eaa13a8b" class="">
+</p><h3 id="e18041f5-7fff-4252-94cd-d8c5d541e031" class="block-color-brown_background">cmd.dart</h3><p id="00121f75-511f-4743-bec5-32b9c7c7f281" class="">This code is for Terminal Page that executes command.</p><pre id="aa9068bc-7a77-41e8-acde-7730261601a6" class="code"><code>import &#x27;dart:convert&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:cloud_firestore/cloud_firestore.dart&#x27;;
+import &#x27;package:http/http.dart&#x27; as http;
+
+class Body extends StatefulWidget {
+  @override
+  _BodyState createState() =&gt; _BodyState();
+}
+
+class _BodyState extends State&lt;Body&gt; {
+  final _formKey = GlobalKey&lt;FormState&gt;();
+  final firestoreInstance = FirebaseFirestore.instance;
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  TextEditingController command = TextEditingController();
+  var input;
+  @override
+  void initState() {
+    super.initState();
+    firestoreInstance.collection(&quot;Users&quot;).doc(firebaseUser.uid).set({
+      &quot;Result&quot;: &quot;&quot;,
+      &quot;statusCode&quot;: &quot;&quot;,
+    });
+  }
+
+  getOutput(input) async {
+    var url = &#x27;http://5a130c7819ba.ngrok.io/cgi-bin/cmd.py?x=$input&#x27;;
+    var result = await http.get(url);
+    var output = json.decode(result.body);
+
+    await firestoreInstance.collection(&quot;Users&quot;).doc(firebaseUser.uid).set({
+      &quot;Result&quot;: output[&#x27;Result&#x27;],
+      &quot;statusCode&quot;: output[&#x27;statusCode&#x27;]
+    }).then((_) =&gt; print(&quot;Sucess&quot;));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: &lt;Widget&gt;[
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 15, 8, 8),
+                      child: Center(
+                          child: Text(&quot;Linux Terminal&quot;,
+                              style: TextStyle(
+                                  fontSize: 25, fontWeight: FontWeight.bold))),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: TextFormField(
+                        controller: command,
+                        decoration: InputDecoration(
+                          labelText: &quot;Enter Linux command&quot;,
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return &#x27;Form Field Value Required&#x27;;
+                          }
+                          input = value;
+                          return null;
+                        },
+                      ),
+                    ),
+                    Center(
+                        child: RaisedButton(
+                      color: Colors.green,
+                      child: Text(&quot;Execute Command&quot;),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          getOutput(input);
+                        }
+                      },
+                    ))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              StreamBuilder(
+                stream: firestoreInstance
+                    .collection(&quot;Users&quot;)
+                    .doc(firebaseUser.uid)
+                    .snapshots(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData)
+                    return Text(&quot;No Data&quot;);
+                  else {
+                    var info = snapshot.data.data();
+                    // print(info[&#x27;ContainerID&#x27;]);
+                    return SingleChildScrollView(
+                      child: Container(
+                        width: (MediaQuery.of(context).size.width) * 0.95,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 1, 20, 200),
+                          child: Text(
+                            (info[&#x27;Result&#x27;] != null) ? info[&#x27;Result&#x27;] : &quot;&quot;,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Colors.black87,
+                                style: BorderStyle.solid)),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}</code></pre><p id="a54802bd-0d20-496b-93d8-57caf20a58d8" class="">
+</p><h3 id="6f39fa7d-74c4-4cea-94bc-9712c2547c36" class="block-color-blue_background">HomePage.dart</h3><pre id="f27e37d6-bc31-4c11-9196-d639b73774c8" class="code"><code>import &#x27;cmd.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() =&gt; _HomePageState();
+}
+
+class _HomePageState extends State&lt;HomePage&gt; {
+  void loi(BuildContext context) {
+    var alertDialog = AlertDialog(
+        title: Text(&quot;Log out of app?&quot;),
+        content: Text(&quot;Are you sure you want to log out of the app!&quot;),
+        actions: &lt;Widget&gt;[
+          FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(&quot;Cancel&quot;)),
+          FlatButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, &#x27;SignIn&#x27;, (route) =&gt; false);
+              },
+              child: Text(&quot;Log Out&quot;))
+        ]);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(&quot;Linux Terminal App&quot;),
+          backgroundColor: Colors.black,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  loi(context);
+                })
+          ],
+        ),
+        body: Body());
+  }
+}</code></pre><p id="9c5c62d1-6f09-4680-b3f7-2889c22406f2" class="">
+</p><h3 id="98d959ed-25a3-46c8-bcdb-9719cfbd5863" class="block-color-orange_background">first-screen.dart</h3><p id="b84cfcd1-550e-451b-9002-77043296ae3c" class="">This Code is for firebase AUTH:</p><pre id="4c2a1d90-46a0-4361-8eb7-5d14226e0326" class="code"><code>import &#x27;LogIn.dart&#x27;;
+import &#x27;package:flutter/material.dart&#x27;;
+import &#x27;package:firebase_auth/firebase_auth.dart&#x27;;
+import &#x27;HomePage.dart&#x27;;
+
+class IntroScreen extends StatefulWidget {
+  @override
+  _IntroScreenState createState() =&gt; _IntroScreenState();
+}
+
+class _IntroScreenState extends State&lt;IntroScreen&gt; {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder&lt;User&gt;(
+      stream: auth.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          User user = snapshot.data;
+          if (user == null) {
+            return LogIn();
+          }
+          print(&quot;homePage&quot;);
+          return HomePage();
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          print(&quot;Waiting&quot;);
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        return null;
+      },
+    );
+  }
+}</code></pre><p id="ee09a40c-a3bc-40d8-98c0-3461ce2b8d66" class="">
+</p><h3 id="a3b02ce6-53e2-4465-b8a1-5c275be5748f" class="">Flexing My Work</h3><figure id="56a6d111-f124-4aa0-8ff5-d1d0428379af" class="image"><a href="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/for-dribbble.png"><img style="width:800px" src="Flutter%20App%20to%20run%20Linux%20Commands(Using%20StreamBuil%20e23d9e5b83ba4023b15d3ec46d66baa6/for-dribbble.png"/></a></figure><p id="17a79778-86e9-4d16-a88b-b1bfded9a55e" class="">
+</p></div></article></body></html>
